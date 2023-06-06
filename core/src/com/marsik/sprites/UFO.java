@@ -16,5 +16,4 @@ public class UFO extends InteractiveTileObject{
         Gdx.app.log("ufo","the end");
     }
 
-
 }

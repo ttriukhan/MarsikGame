@@ -82,15 +82,5 @@ public class Marsik extends Sprite {
         fdef.shape = shape;
 
         b2body.createFixture(fdef).setUserData("marsik");;
-
-        /*// Dispose the shape after creating the fixture
-        shape.dispose();
-
-        EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / MarsikGame.PPM, 7/MarsikGame.PPM), new Vector2(-2 / MarsikGame.PPM, 7/MarsikGame.PPM));
-        fdef.shape = head;
-        fdef.isSensor = true;
-
-        b2body.createFixture(fdef).setUserData("marsik");*/
     }
 }
