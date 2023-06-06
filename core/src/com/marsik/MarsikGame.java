@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.marsik.screens.PlayScreen;
 
 public class MarsikGame extends Game {
+	public static final int V_WIDTH = 800;
+	public static final int V_HEIGHT = 400;
+
 	public SpriteBatch batch;
 	
 	@Override

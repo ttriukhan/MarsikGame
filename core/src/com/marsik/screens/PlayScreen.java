@@ -11,19 +11,20 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.marsik.MarsikGame;
+import com.marsik.scenes.Hud;
 
 public class PlayScreen implements Screen {
 
     private MarsikGame game;
-    Texture texture;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
+    private Hud hud;
 
     public PlayScreen(MarsikGame game) {
         this.game = game;
-        texture = new Texture("badlogic.jpg");
         gameCam = new OrthographicCamera();
-        gamePort = new FitViewport(800, 480, gameCam);
+        gamePort = new FitViewport(MarsikGame.V_WIDTH, MarsikGame.V_HEIGHT, gameCam);
+        hud = new Hud(game.batch);
     }
 
     @Override
@@ -33,12 +34,11 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1,0,0,1);
+        Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.batch.setProjectionMatrix(gameCam.combined);
-        game.batch.begin();
-        game.batch.draw(texture, 0,0);
-        game.batch.end();
+
+        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
     }
 
     @Override
