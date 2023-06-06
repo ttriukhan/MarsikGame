@@ -6,14 +6,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.physics.box2d.*;
 import com.marsik.MarsikGame;
 
-import java.awt.*;
-
-public class InteractiveTileObject {
+public abstract class InteractiveTileObject {
     protected World world;
     protected TiledMap map;
     protected TiledMapTile tile;
     protected Rectangle bounds;
     protected Body body;
+    protected Fixture fixture;
 
     public InteractiveTileObject(World world, TiledMap map, Rectangle bounds) {
         this.world = world;
@@ -31,6 +30,8 @@ public class InteractiveTileObject {
 
         shape.setAsBox((bounds.getWidth() /2/MarsikGame.PPM), (bounds.getHeight()/2/MarsikGame.PPM));
         fdef.shape = shape;
-        body.createFixture(fdef);
+        fixture = body.createFixture(fdef);
     }
+
+    public abstract void touchToMarsik();
 }

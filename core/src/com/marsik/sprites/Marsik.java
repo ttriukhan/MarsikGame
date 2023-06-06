@@ -2,6 +2,7 @@ package com.marsik.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.marsik.MarsikGame;
 import com.marsik.screens.PlayScreen;
@@ -80,9 +81,16 @@ public class Marsik extends Sprite {
 
         fdef.shape = shape;
 
-        b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData("marsik");;
 
-        // Dispose the shape after creating the fixture
+        /*// Dispose the shape after creating the fixture
         shape.dispose();
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2 / MarsikGame.PPM, 7/MarsikGame.PPM), new Vector2(-2 / MarsikGame.PPM, 7/MarsikGame.PPM));
+        fdef.shape = head;
+        fdef.isSensor = true;
+
+        b2body.createFixture(fdef).setUserData("marsik");*/
     }
 }

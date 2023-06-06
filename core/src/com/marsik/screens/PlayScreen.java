@@ -2,6 +2,7 @@ package com.marsik.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import tools.B2WorldCreator;
+import tools.WorldContactListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -55,6 +56,8 @@ public class PlayScreen implements Screen {
 
         new B2WorldCreator(world, map);
         player = new Marsik(world, this);
+
+        world.setContactListener(new WorldContactListener());
     }
 
     public Texture getTexture() {

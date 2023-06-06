@@ -1,5 +1,6 @@
 package com.marsik.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,6 +15,12 @@ import java.awt.*;
 public class Sample extends InteractiveTileObject{
     public Sample(World world, TiledMap map, Rectangle bounds) {
         super(world, map, bounds);
+        fixture.setUserData(this);
+    }
+
+    @Override
+    public void touchToMarsik() {
+        Gdx.app.log("sample","well done");
     }
 
 }
