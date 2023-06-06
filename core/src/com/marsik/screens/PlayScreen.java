@@ -1,6 +1,7 @@
 package com.marsik.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.marsik.MarsikGame;
 import com.marsik.scenes.Hud;
+import com.marsik.sprites.Marsik;
 
 import java.awt.*;
 
@@ -37,19 +39,23 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
 
+    private Marsik player;
+
     public PlayScreen(MarsikGame game) {
         this.game = game;
         gameCam = new OrthographicCamera();
-        gamePort = new FitViewport(MarsikGame.V_WIDTH, MarsikGame.V_HEIGHT, gameCam);
+        gamePort = new FitViewport(MarsikGame.V_WIDTH / MarsikGame.PPM, MarsikGame.V_HEIGHT / MarsikGame.PPM, gameCam);
         hud = new Hud(game.batch);
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("map1.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map);
+        renderer = new OrthogonalTiledMapRenderer(map, 1/MarsikGame.PPM);
         gameCam.position.set(gamePort.getScreenWidth()/2, gamePort.getScreenHeight()/2, 0);
 
-        world = new World(new Vector2(0,0), true);
+        world = new World(new Vector2(0,-10), true);
         b2dr = new Box2DDebugRenderer();
+
+        player = new Marsik(world);
 
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -60,11 +66,11 @@ public class PlayScreen implements Screen {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth()/2, rect.getY() + rect.getHeight()/2);
+            bdef.position.set(((rect.getX() + rect.getWidth()/2)/MarsikGame.PPM), (rect.getY() + rect.getHeight()/2)/MarsikGame.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() /2, rect.getHeight()/2);
+            shape.setAsBox(rect.getWidth() /2 /MarsikGame.PPM, rect.getHeight()/2 /MarsikGame.PPM);
             fdef.shape = shape;
             body.createFixture(fdef);
         }
@@ -73,11 +79,11 @@ public class PlayScreen implements Screen {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth()/2, rect.getY() + rect.getHeight()/2);
+            bdef.position.set((rect.getX() + rect.getWidth()/2)/MarsikGame.PPM, (rect.getY() + rect.getHeight()/2)/MarsikGame.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() /2, rect.getHeight()/2);
+            shape.setAsBox(rect.getWidth() /2 /MarsikGame.PPM, rect.getHeight()/2/MarsikGame.PPM);
             fdef.shape = shape;
             body.createFixture(fdef);
         }
@@ -86,11 +92,11 @@ public class PlayScreen implements Screen {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth()/2, rect.getY() + rect.getHeight()/2);
+            bdef.position.set((rect.getX() + rect.getWidth()/2)/MarsikGame.PPM, (rect.getY() + rect.getHeight()/2)/MarsikGame.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() /2, rect.getHeight()/2);
+            shape.setAsBox(rect.getWidth() /2/MarsikGame.PPM, rect.getHeight()/2/MarsikGame.PPM);
             fdef.shape = shape;
             body.createFixture(fdef);
         }
@@ -99,11 +105,11 @@ public class PlayScreen implements Screen {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth()/2, rect.getY() + rect.getHeight()/2);
+            bdef.position.set((rect.getX() + rect.getWidth()/2)/MarsikGame.PPM, (rect.getY() + rect.getHeight()/2)/MarsikGame.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() /2, rect.getHeight()/2);
+            shape.setAsBox(rect.getWidth() /2/MarsikGame.PPM, rect.getHeight()/2/MarsikGame.PPM);
             fdef.shape = shape;
             body.createFixture(fdef);
         }
@@ -112,11 +118,11 @@ public class PlayScreen implements Screen {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth()/2, rect.getY() + rect.getHeight()/2);
+            bdef.position.set((rect.getX() + rect.getWidth()/2)/MarsikGame.PPM, (rect.getY() + rect.getHeight()/2)/MarsikGame.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() /2, rect.getHeight()/2);
+            shape.setAsBox(rect.getWidth() /2/MarsikGame.PPM, rect.getHeight()/2/MarsikGame.PPM);
             fdef.shape = shape;
             body.createFixture(fdef);
         }
@@ -128,12 +134,21 @@ public class PlayScreen implements Screen {
     }
 
     private void handleInput(float dt) {
-        if(Gdx.input.isTouched())
-            gameCam.position.x += 100 * dt;
+        if(Gdx.input.isKeyJustPressed((Input.Keys.UP)))
+            player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2)
+            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2)
+            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
     }
 
     public void update(float dt) {
         handleInput(dt);
+
+        world.step(1/60f, 6, 2);
+
+        gameCam.position.x = player.b2body.getPosition().x;
+
         gameCam.update();
         renderer.setView(gameCam);
     }
