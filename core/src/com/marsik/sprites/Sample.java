@@ -2,18 +2,26 @@ package com.marsik.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
+import com.marsik.MarsikGame;
 
 public class Sample extends InteractiveTileObject{
     public Sample(World world, TiledMap map, Rectangle bounds) {
         super(world, map, bounds);
         fixture.setUserData(this);
+        setCategoryFilter(MarsikGame.SAMPLE_BIT);
     }
 
     @Override
     public void touchToMarsik() {
         Gdx.app.log("sample","well done");
+        setCategoryFilter(MarsikGame.GOT_BIT);
+        for (TiledMapTileLayer.Cell cell : getCell())
+            cell.setTile(null);
     }
+
+
 
 }

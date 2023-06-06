@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="150" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="276">
+<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="150" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="282">
  <tileset firstgid="1" name="NES - Super Mario Bros - Tileset" tilewidth="16" tileheight="16" tilecount="1974" columns="42">
   <image source="NES - Super Mario Bros - Tileset.png" width="680" height="764"/>
  </tileset>
@@ -4721,35 +4721,15 @@
    eJztw7ENAAAMAiDTk/1/8IfOkNBLqqqqqqqqqqrPAwtdc8Y=
   </data>
  </layer>
- <layer id="3" name="ground" width="150" height="13" locked="1">
+ <layer id="2" name="graphics" width="150" height="13" locked="1">
   <data encoding="base64" compression="zlib">
-   eJztwzENAAAIA7B96MC/yZngo02aAAAAAAAAAF/s6P0CwhMXcQ==
+   eJztmEkOgkAURP8OFuwdICQeQLcOoJfwsI73cLyH48JKdGU0atvQ/UO95K0ITZH+SReIEEKKop2KdFLXKcgzcSSSRK5TmDPETI0qNFda9itDxlxBTnJHw36Ng9e6eu4/Gb5Z09Z72ljfJG/Z++Qb7DykCGx3Hi2dguhCQ6fQxARn6BTO4Bwu4PKHc7WIM9vkXhtdoqyOZJK76Pc2Xf8dK1xbww3cwh3cV7CvEbscMENHeIJneIFXzpX3+P7dUgtF6rABmzCGSeg6FfmE7/9qu5ihHuzDAcxg/pirVkCpfW8ei2FI
   </data>
  </layer>
- <layer id="2" name="platforms" width="150" height="13" locked="1">
-  <data encoding="base64" compression="zlib">
-   eJzt1rsNACAIBUA7B3T/XRxAC4P4Ke4SS58QCikFAIDftDo/r97dqWElM6vPjPxIvbfnBACMTvzZkbsZu8StHSlS9+m+o/kAALzXASMpMTk=
-  </data>
- </layer>
- <layer id="5" name="ufo" width="150" height="13" locked="1">
-  <data encoding="base64" compression="zlib">
-   eJzt0rsNwkAUBdGX7XYABvowNvTfgg24D/An8PSA0GrRHGnyG9wISZIkSZIkSfo/Q4oY6UFPetGUSq9S7d586EMzLbTS5q/0pUOOOFJDJzrTJZdepdq1fOhKHfV0o7u/0g/t96kNmQ==
-  </data>
- </layer>
- <layer id="8" name="sample" width="150" height="13" locked="1">
-  <data encoding="base64" compression="zlib">
-   eJzt1rEJACAQBMEvwA60E+2/LgUDUzN5nKlg4ZKLAPhLLRGtvK7gVpa9+mocCTrZ7AXwnyyfglx8CgAAgGMCXyQCmw==
-  </data>
- </layer>
- <layer id="10" name="bonuses" width="150" height="13" locked="1">
-  <data encoding="base64" compression="zlib">
-   eJzt1zENACAQA8BXggNwAP5lwcrOB0LuFHTo0EYAWWqJaOV2Cn7TV6eGXgHwEJuHDDYPAAAn+S1k8FtgNwEpOwPr
-  </data>
- </layer>
- <objectgroup id="6" name="ground" locked="1" opacity="0">
+ <objectgroup id="6" name="ground" locked="1">
   <object id="5" x="0" y="192.072" width="2400" height="15.9944"/>
  </objectgroup>
- <objectgroup id="7" name="platforms" locked="1" opacity="0">
+ <objectgroup id="7" name="platforms" locked="1">
   <object id="6" x="143.25" y="128.109" width="208.5" height="15.9674"/>
   <object id="7" x="272" y="64.0109" width="96.25" height="15.9674"/>
   <object id="8" x="480" y="127.924" width="112.5" height="16.0761"/>
@@ -4763,17 +4743,17 @@
   <object id="16" x="1791.75" y="64" width="272.5" height="16.1087"/>
   <object id="17" x="2064" y="127.978" width="128.25" height="16.1467"/>
  </objectgroup>
- <objectgroup id="4" name="ufo" locked="1" opacity="0">
+ <objectgroup id="4" name="ufo" locked="1">
   <object id="25" x="2317" y="154" width="33.3333" height="36.6667"/>
  </objectgroup>
- <objectgroup id="9" name="samples" locked="1" opacity="0">
+ <objectgroup id="9" name="samples" locked="1">
   <object id="260" x="294.5" y="38.5" width="21" height="21"/>
   <object id="265" x="951" y="101" width="22" height="21.5"/>
   <object id="266" x="2021" y="38" width="24.5" height="21.5"/>
  </objectgroup>
- <objectgroup id="11" name="bonuses" locked="1" opacity="0">
-  <object id="268" x="631.333" y="88" width="15.3333" height="18"/>
-  <object id="269" x="1066.67" y="22.3333" width="11" height="21"/>
-  <object id="270" x="1655.67" y="166.333" width="14.3333" height="20.3333"/>
+ <objectgroup id="12" name="bonuses" locked="1">
+  <object id="277" x="631.455" y="87.4545" width="15.2727" height="18.5455"/>
+  <object id="278" x="1065.13" y="22.625" width="12.625" height="20.75"/>
+  <object id="279" x="1655.82" y="166.545" width="14.3636" height="20.2727"/>
  </objectgroup>
 </map>
