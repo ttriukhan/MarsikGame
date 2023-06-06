@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="150" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="24">
+ <tileset firstgid="1" name="NES - Super Mario Bros - Tileset" tilewidth="16" tileheight="16" tilecount="1974" columns="42">
+  <image source="NES - Super Mario Bros - Tileset.png" width="680" height="764"/>
+ </tileset>
+ <tileset firstgid="4023" name="ufo" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
+  <image source="ufo.png" width="512" height="512"/>
+ </tileset>
+ <layer id="1" name="background" width="150" height="13">
+  <data encoding="base64" compression="zlib">
+   eJztw0EJAAAIBDB/Njr7N7OGwgZLV0VVVVVVVdVzR/XJBYwE0eI=
+  </data>
+ </layer>
+ <layer id="3" name="ground" width="150" height="13">
+  <data encoding="base64" compression="zlib">
+   eJzt1ckNgmAUReF/J21QpQpShwNQBzjV4UgdDmjisQEXYjQm5yTf/i1u8kIwMzMzMzMzM3tdPwphgCESpBghi359mf1zY/YzwRQz5ChQuivrUMV+asyxwBIrrN2VvdnzB26wxQ57HHBE466sQyf2c8YFV7S44e6u7AvFPenzHmw8MnY=
+  </data>
+ </layer>
+ <layer id="2" name="platforms" width="150" height="13">
+  <data encoding="base64" compression="zlib">
+   eJzt1tsNgCAMAED+3cf9t3AdJjBiqUXNXcInfQQCbQ0AgLfZT9aqvDM1jMTM6jMjfqTe6nOCK8e2ugL+xp3iC574syN7M2aJqhkpUvfdHFk9RvZ5uwAAanUfCCAv
+  </data>
+ </layer>
+ <layer id="5" name="ufo" width="150" height="13">
+  <data encoding="base64" compression="zlib">
+   eJzt0rsNwkAUBdHXwW4GBvowNvTfgg24D/An8PSA0GrRHGnyG9wISZIkSZIkSfo/Q4oY6UFPetGUSq9S7d586EMzLbTS5q/0pUOOOFJDJzrTJZdepdq1fOhKHfV0o7u/0g/tabQOWQ==
+  </data>
+ </layer>
+ <objectgroup id="4" name="ufo">
+  <object id="2" x="2292" y="138" width="84" height="52"/>
+ </objectgroup>
+ <objectgroup id="7" name="platforms">
+  <object id="6" x="143.25" y="127.5" width="208.5" height="15.75"/>
+  <object id="7" x="272" y="63.75" width="96.25" height="15.75"/>
+  <object id="8" x="480" y="127.75" width="112.5" height="16.25"/>
+  <object id="9" x="752" y="63.5" width="144" height="16.5"/>
+  <object id="10" x="688" y="128" width="367.75" height="15.5"/>
+  <object id="11" x="1088" y="63.5" width="208" height="16.5"/>
+  <object id="12" x="1279.75" y="128.25" width="96.25" height="15.75"/>
+  <object id="13" x="1423.5" y="127.5" width="160.5" height="16.75"/>
+  <object id="14" x="1520" y="64" width="160.25" height="15.75"/>
+  <object id="15" x="1679.75" y="128" width="288.75" height="16"/>
+  <object id="16" x="1791.75" y="64" width="272.5" height="16.5"/>
+  <object id="17" x="2064" y="127.5" width="128.25" height="16.75"/>
+ </objectgroup>
+ <objectgroup id="6" name="ground">
+  <object id="5" x="1" y="190" width="2399" height="19"/>
+ </objectgroup>
+</map>
