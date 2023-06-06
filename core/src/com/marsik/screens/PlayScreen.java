@@ -1,5 +1,6 @@
 package com.marsik.screens;
 
+import com.badlogic.gdx.graphics.Texture;
 import tools.B2WorldCreator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -20,6 +21,9 @@ import com.marsik.sprites.Marsik;
 public class PlayScreen implements Screen {
 
     private MarsikGame game;
+
+    private Texture mTexture;
+
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private Hud hud;
@@ -34,6 +38,8 @@ public class PlayScreen implements Screen {
     private Marsik player;
 
     public PlayScreen(MarsikGame game) {
+        mTexture = new Texture(Gdx.files.internal("alien.png"));
+
         this.game = game;
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(MarsikGame.V_WIDTH / MarsikGame.PPM, MarsikGame.V_HEIGHT / MarsikGame.PPM, gameCam);
@@ -48,8 +54,11 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
 
         new B2WorldCreator(world, map);
-        player = new Marsik(world);
+        player = new Marsik(world, this);
+    }
 
+    public Texture getTexture() {
+        return mTexture;
     }
 
     @Override
@@ -71,6 +80,8 @@ public class PlayScreen implements Screen {
 
         world.step(1/60f, 6, 2);
 
+        player.update(dt);
+
         gameCam.position.x = player.b2body.getPosition().x;
 
         gameCam.update();
@@ -80,12 +91,18 @@ public class PlayScreen implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
+
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
 
         b2dr.render(world, gameCam.combined);
+
+        game.batch.setProjectionMatrix(gameCam.combined);
+        game.batch.begin();
+        player.draw(game.batch);
+        game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
