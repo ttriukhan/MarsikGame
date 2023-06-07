@@ -2,6 +2,7 @@ package com.marsik.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.marsik.sprites.Dron;
+import com.marsik.sprites.Enemy;
 import com.marsik.sprites.Soldier;
 import tools.B2WorldCreator;
 import tools.WorldContactListener;
@@ -37,10 +38,9 @@ public class PlayScreen implements Screen {
 
     private World world;
     private Box2DDebugRenderer b2dr;
+    private B2WorldCreator creator;
 
     private Marsik player;
-    private Soldier soldier;
-    private Dron dron;
 
     public PlayScreen(MarsikGame game) {
         mTexture = new Texture(Gdx.files.internal("alien.png"));
@@ -57,11 +57,9 @@ public class PlayScreen implements Screen {
 
         world = new World(new Vector2(0,-10), true);
         b2dr = new Box2DDebugRenderer();
+        creator = new B2WorldCreator(this);
 
-        new B2WorldCreator(this);
         player = new Marsik(this);
-        soldier = new Soldier(this, 10*16/ MarsikGame.PPM, 5*16/MarsikGame.PPM,  15*16/MarsikGame.PPM);
-        dron = new Dron(this, 10*16/ MarsikGame.PPM, 2*16/MarsikGame.PPM, 15*16/MarsikGame.PPM);
 
         world.setContactListener(new WorldContactListener());
     }
@@ -90,8 +88,11 @@ public class PlayScreen implements Screen {
         world.step(1/60f, 6, 2);
 
         player.update(dt);
-        soldier.update(dt);
-        dron.update(dt);
+
+        for(Dron dron : creator.getDrons())
+            dron.update(dt);
+        for(Soldier sold : creator.getSoldiers())
+            sold.update(dt);
 
         hud.update(dt);
 
@@ -114,9 +115,13 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
+
+        for(Dron dron : creator.getDrons())
+            dron.draw(game.batch);
+        for(Soldier sold : creator.getSoldiers())
+            sold.draw(game.batch);
+
         player.draw(game.batch);
-        soldier.draw(game.batch);
-        dron.draw(game.batch);
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);

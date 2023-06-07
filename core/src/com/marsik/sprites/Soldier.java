@@ -13,8 +13,8 @@ import com.marsik.screens.PlayScreen;
 
 public class Soldier extends Enemy {
 
-    public Soldier(PlayScreen screen, float x, float y, float x2) {
-        super(screen, x, y, x2);
+    public Soldier(PlayScreen screen, float x, float y, float delta, float speed) {
+        super(screen, x, y, delta, speed);
         Texture soldierTexture = new Texture(Gdx.files.internal("soldier.png"));
         TextureRegion soldierRegion = new TextureRegion(soldierTexture);
         setBounds(0, 0, 16 / MarsikGame.PPM, 24 / MarsikGame.PPM);

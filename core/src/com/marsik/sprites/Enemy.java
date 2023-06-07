@@ -19,19 +19,19 @@ public abstract class Enemy extends Sprite {
     protected float stateTime;
     protected float x;
     protected float y;
-    protected float x2;
+    protected float deltaX;
     protected boolean movingRight;
 
 
-    public Enemy(PlayScreen screen, float x, float y, float x2) {
+    public Enemy(PlayScreen screen, float x, float y, float deltaX, float speed) {
         this.world = screen.getWorld();
         this.screen = screen;
         this.x = x;
         this.y = y;
-        this.x2 = x2;
+        this.deltaX = deltaX;
         movingRight = true;
         defineEnemy();
-        velocity = new Vector2(1,0);
+        velocity = new Vector2(speed,0);
         stateTime = 0;
     }
 
@@ -40,7 +40,7 @@ public abstract class Enemy extends Sprite {
         b2body.setLinearVelocity(velocity);
         setPosition(b2body.getPosition().x - getWidth() /2,b2body.getPosition().y - getHeight()/2);
         if(movingRight) {
-            if(b2body.getPosition().x>x2) {
+            if(b2body.getPosition().x>(x+deltaX*16/MarsikGame.PPM)) {
                 reverseVelocity(true, false);
                 movingRight = false;
             }
