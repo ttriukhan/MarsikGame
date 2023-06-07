@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.marsik.sprites.enemies.Dron;
 import com.marsik.sprites.enemies.Soldier;
+import com.marsik.sprites.items.Bullet;
 import tools.B2WorldCreator;
 import tools.WorldContactListener;
 import com.badlogic.gdx.Gdx;
@@ -21,6 +22,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import tools.MarsikGame;
 import com.marsik.scenes.Hud;
 import com.marsik.sprites.Marsik;
+
+import java.util.ArrayList;
 
 public class PlayScreen implements Screen {
 
@@ -44,6 +47,7 @@ public class PlayScreen implements Screen {
     private B2WorldCreator creator;
 
     private Marsik player;
+    private ArrayList<Bullet> bullets;
 
     public PlayScreen(MarsikGame game) {
         mTexture = new Texture(Gdx.files.internal("alien.png"));
@@ -66,8 +70,13 @@ public class PlayScreen implements Screen {
         creator = new B2WorldCreator(this);
 
         player = new Marsik(this);
+        bullets = new ArrayList<>();
 
         world.setContactListener(new WorldContactListener());
+    }
+
+    public void spawnBullet(Bullet bullet) {
+        bullets.add(bullet);
     }
 
     public Texture getTexture() {
@@ -80,11 +89,11 @@ public class PlayScreen implements Screen {
     }
 
     private void handleInput(float dt) {
-        if(Gdx.input.isKeyJustPressed((Input.Keys.UP)) && player.currentState!= Marsik.State.FALLING && player.currentState!= Marsik.State.JUMPING)
+        if((Gdx.input.isKeyJustPressed((Input.Keys.UP)) || Gdx.input.isKeyJustPressed((Input.Keys.W))) && player.currentState!= Marsik.State.FALLING && player.currentState!= Marsik.State.JUMPING)
             player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2)
+        if((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed((Input.Keys.D))) && player.b2body.getLinearVelocity().x <= 2)
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2)
+        if((Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed((Input.Keys.A))) && player.b2body.getLinearVelocity().x >= -2)
             player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
 
         float clampedX = MathUtils.clamp(player.b2body.getPosition().x, player.getWidth()/2, mapWidth-player.getWidth()/2);
@@ -102,19 +111,24 @@ public class PlayScreen implements Screen {
 
         for(Dron dron : creator.getDrons())
             dron.update(dt);
+
         for(Soldier sold : creator.getSoldiers()) {
             sold.update(dt);
             if(sold.getY() >= player.getY()-player.getHeight() && sold.getY()<= player.getY() + player.getHeight()){
                 if(!sold.isMovingRight()) {
                     if(sold.getX() > player.getX() && sold.getX() - player.getX() < 10*16/MarsikGame.PPM)
-                        sold.shoot(sold.getX(), sold.getY(), false);
+                        sold.shoot();
                     else sold.b2body.setActive(true);
                 } else {
                     if(sold.getX() < player.getX() && player.getX() - sold.getX() < 10*16/MarsikGame.PPM)
-                        sold.shoot(sold.getX(), sold.getY(), true);
+                        sold.shoot();
                     else sold.b2body.setActive(true);
                 }
             } else sold.b2body.setActive(true);
+        }
+
+        for(Bullet bullet : bullets) {
+            bullet.update(dt);
         }
 
         hud.update(dt);
@@ -150,8 +164,13 @@ public class PlayScreen implements Screen {
 
         for(Dron dron : creator.getDrons())
             dron.draw(game.batch);
+
         for(Soldier sold : creator.getSoldiers())
             sold.draw(game.batch);
+
+        for(Bullet bullet : bullets) {
+            bullet.draw(game.batch);
+        }
 
         player.draw(game.batch);
         game.batch.end();

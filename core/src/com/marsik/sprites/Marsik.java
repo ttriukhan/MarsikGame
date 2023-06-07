@@ -3,6 +3,7 @@ package com.marsik.sprites;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import com.marsik.scenes.Hud;
 import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
@@ -79,10 +80,16 @@ public class Marsik extends Sprite {
         shape.set(vertices);
 
         fdef.filter.categoryBits = MarsikGame.MARSIK_BIT;
-        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.BONUS_BIT | MarsikGame.DRON_BIT | MarsikGame.SAMPLE_BIT | MarsikGame.UFO_BIT;
+        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.BONUS_BIT
+                | MarsikGame.DRON_BIT | MarsikGame.SAMPLE_BIT | MarsikGame.UFO_BIT | MarsikGame.BULLET_BIT;
 
         fdef.shape = shape;
 
         b2body.createFixture(fdef).setUserData("marsik");
     }
+
+    public void getDamage(int damage) {
+        Hud.healthChange(-damage);
+    }
+
 }

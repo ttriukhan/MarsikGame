@@ -27,6 +27,9 @@ public class WorldContactListener implements ContactListener {
             case MarsikGame.DRON_BIT | MarsikGame.MARSIK_BIT:
                 Gdx.app.log("marsik","died");
                 break;
+            case MarsikGame.BULLET_BIT | MarsikGame.MARSIK_BIT:
+                Gdx.app.log("marsik","died");
+                break;
         }
     }
 

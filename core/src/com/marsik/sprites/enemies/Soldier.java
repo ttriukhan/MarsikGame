@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.marsik.sprites.items.Bullet;
 import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
@@ -15,10 +16,8 @@ public class Soldier extends Enemy {
 
     public Soldier(PlayScreen screen, float x, float y, float delta, float speed) {
         super(screen, x, y, delta, speed);
-        Texture soldierTexture = new Texture(Gdx.files.internal("soldier.png"));
-        TextureRegion soldierRegion = new TextureRegion(soldierTexture);
+        setRegion(new TextureRegion(new Texture(Gdx.files.internal("soldier.png"))));
         setBounds(0, 0, 16 / MarsikGame.PPM, 24 / MarsikGame.PPM);
-        setRegion(soldierRegion);
     }
 
     public void update(float dt) {
@@ -36,7 +35,6 @@ public class Soldier extends Enemy {
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        // Define the vertices of the polygon shape
         float[] vertices = {
                 -8 / MarsikGame.PPM, -12 / MarsikGame.PPM, // bottom-left
                 8 / MarsikGame.PPM, -12 / MarsikGame.PPM, // bottom-right
@@ -50,12 +48,12 @@ public class Soldier extends Enemy {
         fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT;
         fdef.shape = shape;
 
-        b2body.createFixture(fdef).setUserData("soldier");
+        b2body.createFixture(fdef).setUserData(this);
     }
 
-    public void shoot(float x, float y, boolean right) {
+    public void shoot() {
         if(timer>=1) {
-            Gdx.app.log("soldier", "shooting");
+            screen.spawnBullet(new Bullet(screen, b2body.getPosition().x, b2body.getPosition().y, movingRight));
             timer=0;
         }
         b2body.setActive(false);
