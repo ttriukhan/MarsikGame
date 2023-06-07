@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="150" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="15" nextobjectid="310">
+<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="150" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="311">
  <tileset firstgid="1" name="NES - Super Mario Bros - Tileset" tilewidth="16" tileheight="16" tilecount="1974" columns="42">
   <image source="NES - Super Mario Bros - Tileset.png" width="680" height="764"/>
  </tileset>
@@ -4713,17 +4713,20 @@
   <tile id="4702"/>
   <tile id="4703"/>
  </tileset>
- <tileset firstgid="7703" name="bonus" tilewidth="16" tileheight="16" tilecount="176" columns="16">
-  <image source="bonus.png" width="263" height="191"/>
+ <tileset firstgid="7703" name="bonus" tilewidth="16" tileheight="16" tilecount="4096" columns="64">
+  <image source="bonus.png" width="1037" height="1037"/>
  </tileset>
- <layer id="1" name="background" width="150" height="13" locked="1">
+ <tileset firstgid="11799" name="ufo2" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
+  <image source="ufo2.png" width="512" height="512"/>
+ </tileset>
+ <layer id="1" name="background" width="150" height="13">
   <data encoding="base64" compression="zlib">
    eJztw7ENAAAMAiDTk/1/8IfOkNBLqqqqqqqqqqrPAwtdc8Y=
   </data>
  </layer>
  <layer id="2" name="graphics" width="150" height="13" locked="1">
   <data encoding="base64" compression="zlib">
-   eJztmEkOgkAURP8OFuwdICQeQLcOoJfwsI73cLyH48JKdGU0atvQ/UO95K0ITZH+SReIEEKKop2KdFLXKcgzcSSSRK5TmDPETI0qNFda9itDxlxBTnJHw36Ng9e6eu4/Gb5Z09Z72ljfJG/Z++Qb7DykCGx3Hi2dguhCQ6fQxARn6BTO4Bwu4PKHc7WIM9vkXhtdoqyOZJK76Pc2Xf8dK1xbww3cwh3cV7CvEbscMENHeIJneIFXzpX3+P7dUgtF6rABmzCGSeg6FfmE7/9qu5ihHuzDAcxg/pirVkCpfW8ei2FI
+   eJztmDkOwjAURH8XivQsSZNTsCS34IxwBdZ7sLZwBdaCkaBCIMDYsb8yT3pVFGcif8mTiBBCXDHIRIaZ7xTkmSQWSWPfKczZYab2FZorLfuVI2OhICe5o2G/+tFrfT33nwzfrGnrPW2sb5K37H0KDXYe4gLbnUdLpyC60NApNDHCGTqGEziFMzj/4Vx1cWab3GujS5TVkUxyu35v0/XfscC1JVzBNdzAbQX7GrHLATN0hCd4hhd45VwFT+jfLfWaSAM2YQsmMK35TkU+Efq/2jZmqAO7sAdzWDzmKosote8NDBRoLA==
   </data>
  </layer>
  <objectgroup id="6" name="ground" locked="1">
@@ -4744,21 +4747,20 @@
   <object id="17" x="2064" y="127.978" width="128.25" height="16.1467"/>
  </objectgroup>
  <objectgroup id="4" name="ufo" locked="1">
-  <object id="25" x="2317" y="154" width="33.3333" height="36.6667"/>
+  <object id="25" x="2317" y="163.5" width="33.3333" height="16.1667"/>
  </objectgroup>
  <objectgroup id="9" name="samples" locked="1">
-  <object id="260" x="294.5" y="38.5" width="21" height="21"/>
-  <object id="265" x="951" y="101" width="22" height="21.5"/>
-  <object id="266" x="2021" y="38" width="24.5" height="21.5"/>
+  <object id="260" x="303.5" y="41" width="3.5" height="13.5"/>
+  <object id="265" x="959.5" y="105" width="3.5" height="12.5"/>
+  <object id="266" x="2032" y="40.5" width="4" height="13.5"/>
  </objectgroup>
  <objectgroup id="12" name="bonuses" locked="1">
-  <object id="277" x="631.455" y="87.4545" width="15.2727" height="18.5455"/>
-  <object id="278" x="1065.13" y="22.625" width="12.625" height="20.75"/>
-  <object id="279" x="1655.82" y="166.545" width="14.3636" height="20.2727"/>
+  <object id="277" x="634.455" y="87.4545" width="5.2727" height="16.0455"/>
+  <object id="278" x="1065.13" y="22.625" width="7.125" height="17.25"/>
+  <object id="279" x="1658.32" y="167.545" width="5.3636" height="14.7727"/>
  </objectgroup>
  <objectgroup id="13" name="soldiers">
-  <object id="282" x="302" y="168.667" width="16.6667" height="22.6667"/>
-  <object id="283" x="191.333" y="104.667" width="16.6667" height="22.6667"/>
+  <object id="283" x="191.333" y="107.667" width="13.6667" height="19.6667"/>
   <object id="284" x="484.584" y="103.166" width="17.3333" height="24"/>
   <object id="285" x="706" y="168" width="15.3333" height="23.3333"/>
   <object id="286" x="908.667" y="168.667" width="16.6667" height="21.3333"/>
@@ -4768,8 +4770,9 @@
   <object id="290" x="1552.67" y="41.3333" width="15.3333" height="24.6667"/>
   <object id="291" x="1854.67" y="44" width="17.3333" height="20.6667"/>
   <object id="306" x="112.333" y="180.667"/>
+  <object id="310" x="300.667" y="172.167" width="13.6667" height="19.6667"/>
  </objectgroup>
- <objectgroup id="14" name="drones" visible="0">
+ <objectgroup id="14" name="drones">
   <object id="292" x="766" y="100.667" width="16.6667" height="26.6667"/>
   <object id="293" x="1088.67" y="168" width="15.3333" height="22.6667"/>
   <object id="294" x="1599.33" y="165.333" width="17.3333" height="25.3333"/>

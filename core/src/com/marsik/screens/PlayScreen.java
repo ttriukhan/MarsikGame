@@ -1,6 +1,8 @@
 package com.marsik.screens;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.math.MathUtils;
 import com.marsik.sprites.Dron;
 import com.marsik.sprites.Enemy;
 import com.marsik.sprites.Soldier;
@@ -34,6 +36,8 @@ public class PlayScreen implements Screen {
 
     private TmxMapLoader mapLoader;
     private TiledMap map;
+    private float mapWidth;
+    private float mapHeight;
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
@@ -54,6 +58,9 @@ public class PlayScreen implements Screen {
         map = mapLoader.load("map1.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1/MarsikGame.PPM);
         gameCam.position.set(gamePort.getScreenWidth()/2, gamePort.getScreenHeight()/2, 0);
+
+        mapWidth = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class) /MarsikGame.PPM;
+        mapHeight = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class) /MarsikGame.PPM;
 
         world = new World(new Vector2(0,-10), true);
         b2dr = new Box2DDebugRenderer();
@@ -80,6 +87,11 @@ public class PlayScreen implements Screen {
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2)
             player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+
+        float clampedX = MathUtils.clamp(player.b2body.getPosition().x, player.getWidth()/2, mapWidth-player.getWidth()/2);
+        float clampedY = MathUtils.clamp(player.b2body.getPosition().y, 0, mapHeight+player.getHeight());
+
+        player.b2body.setTransform(clampedX, clampedY, player.b2body.getAngle());
     }
 
     public void update(float dt) {
@@ -96,7 +108,18 @@ public class PlayScreen implements Screen {
 
         hud.update(dt);
 
-        gameCam.position.x = player.b2body.getPosition().x;
+        //gameCam.position.x = player.b2body.getPosition().x;
+
+        float leftBoundary = player.b2body.getPosition().x - gamePort.getWorldWidth() / 2;
+        float rightBoundary = player.b2body.getPosition().x + gamePort.getWorldWidth() / 2;
+
+        if (leftBoundary < 0) {
+            gameCam.position.x = gamePort.getWorldWidth() / 2;
+        } else if (rightBoundary > mapWidth) {
+            gameCam.position.x = mapWidth - gamePort.getWorldWidth() / 2;
+        } else {
+            gameCam.position.x = player.b2body.getPosition().x;
+        }
 
         gameCam.update();
         renderer.setView(gameCam);
