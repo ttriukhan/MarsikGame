@@ -74,7 +74,7 @@ public class PlayScreen implements Screen {
     }
 
     private void handleInput(float dt) {
-        if(Gdx.input.isKeyJustPressed((Input.Keys.UP)))
+        if(Gdx.input.isKeyJustPressed((Input.Keys.UP)) && player.currentState!= Marsik.State.FALLING && player.currentState!= Marsik.State.JUMPING)
             player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2)
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);

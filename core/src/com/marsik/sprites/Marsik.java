@@ -2,7 +2,6 @@ package com.marsik.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.marsik.MarsikGame;
 import com.marsik.screens.PlayScreen;
@@ -80,7 +79,7 @@ public class Marsik extends Sprite {
         shape.set(vertices);
 
         fdef.filter.categoryBits = MarsikGame.MARSIK_BIT;
-        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.OBJECT_BIT | MarsikGame.SAMPLE_BIT | MarsikGame.BONUS_BIT | MarsikGame.DRON_BIT;
+        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.BONUS_BIT | MarsikGame.DRON_BIT | MarsikGame.SAMPLE_BIT | MarsikGame.UFO_BIT;
 
         fdef.shape = shape;
 

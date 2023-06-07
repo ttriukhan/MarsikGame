@@ -1,9 +1,7 @@
 package com.marsik.sprites;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -46,7 +44,7 @@ public class Soldier extends Enemy {
         shape.set(vertices);
 
         fdef.filter.categoryBits = MarsikGame.SOLDIER_BIT;
-        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.OBJECT_BIT;
+        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT;
         fdef.shape = shape;
 
         b2body.createFixture(fdef).setUserData("soldier");

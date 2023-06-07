@@ -44,7 +44,7 @@ public class Dron extends Enemy {
         shape.set(vertices);
 
         fdef.filter.categoryBits = MarsikGame.DRON_BIT;
-        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.OBJECT_BIT | MarsikGame.MARSIK_BIT;
+        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.MARSIK_BIT;
         fdef.shape = shape;
 
         b2body.createFixture(fdef).setUserData("dron");

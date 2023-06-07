@@ -13,7 +13,7 @@ public class Bonus extends InteractiveTileObject{
     public Bonus(PlayScreen screen, Rectangle bounds) {
         super(screen, bounds);
         fixture.setUserData(this);
-        setCategoryFilter(MarsikGame.SAMPLE_BIT);
+        setCategoryFilter(MarsikGame.BONUS_BIT);
     }
 
     @Override
@@ -46,6 +46,7 @@ public class Bonus extends InteractiveTileObject{
     }
 
     private void healthBonus() {
+        Hud.healthChange(5);
     }
 
 }

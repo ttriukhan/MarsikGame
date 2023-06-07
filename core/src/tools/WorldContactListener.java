@@ -20,13 +20,14 @@ public class WorldContactListener implements ContactListener {
 
             if(object.getUserData() != null && InteractiveTileObject.class.isAssignableFrom(object.getUserData().getClass())) {
                 ((InteractiveTileObject) object.getUserData()).touchToMarsik();
+                contact.setEnabled(false);
             }
         }
 
         switch (cDef) {
             case MarsikGame.DRON_BIT | MarsikGame.MARSIK_BIT:
                 Gdx.app.log("marsik","died");
-                Hud.healthChange(-50);
+                Hud.healthChange(-10);
                 break;
         }
     }

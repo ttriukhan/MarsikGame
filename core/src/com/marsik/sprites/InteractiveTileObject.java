@@ -9,6 +9,7 @@ import com.marsik.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public abstract class InteractiveTileObject {
+
     protected World world;
     protected TiledMap map;
     protected TiledMapTile tile;
