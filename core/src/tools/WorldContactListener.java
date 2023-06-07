@@ -3,8 +3,7 @@ package tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.marsik.scenes.Hud;
-import com.marsik.sprites.InteractiveTileObject;
-import com.marsik.MarsikGame;
+import com.marsik.sprites.interactive.InteractiveTileObject;
 
 public class WorldContactListener implements ContactListener {
     @Override
@@ -27,7 +26,6 @@ public class WorldContactListener implements ContactListener {
         switch (cDef) {
             case MarsikGame.DRON_BIT | MarsikGame.MARSIK_BIT:
                 Gdx.app.log("marsik","died");
-                Hud.healthChange(-10);
                 break;
         }
     }

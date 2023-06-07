@@ -1,13 +1,13 @@
-package com.marsik.sprites;
+package com.marsik.sprites.interactive;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
-import com.marsik.MarsikGame;
+import tools.MarsikGame;
 import com.marsik.scenes.Hud;
 import com.marsik.screens.PlayScreen;
 
-public class Sample extends InteractiveTileObject{
+public class Sample extends InteractiveTileObject {
     public Sample(PlayScreen screen, Rectangle bounds) {
         super(screen, bounds);
         fixture.setUserData(this);

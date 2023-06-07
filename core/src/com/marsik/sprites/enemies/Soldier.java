@@ -1,4 +1,4 @@
-package com.marsik.sprites;
+package com.marsik.sprites.enemies;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.marsik.MarsikGame;
+import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public class Soldier extends Enemy {
+
+    private float timer;
 
     public Soldier(PlayScreen screen, float x, float y, float delta, float speed) {
         super(screen, x, y, delta, speed);
@@ -21,6 +23,7 @@ public class Soldier extends Enemy {
 
     public void update(float dt) {
         super.update(dt);
+        timer+=dt;
     }
 
     @Override
@@ -48,5 +51,13 @@ public class Soldier extends Enemy {
         fdef.shape = shape;
 
         b2body.createFixture(fdef).setUserData("soldier");
+    }
+
+    public void shoot(float x, float y, boolean right) {
+        if(timer>=1) {
+            Gdx.app.log("soldier", "shooting");
+            timer=0;
+        }
+        b2body.setActive(false);
     }
 }

@@ -3,7 +3,7 @@ package com.marsik.sprites;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
-import com.marsik.MarsikGame;
+import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public class Marsik extends Sprite {

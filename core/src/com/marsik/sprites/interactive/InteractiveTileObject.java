@@ -1,18 +1,16 @@
-package com.marsik.sprites;
+package com.marsik.sprites.interactive;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.physics.box2d.*;
-import com.marsik.MarsikGame;
+import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public abstract class InteractiveTileObject {
 
     protected World world;
     protected TiledMap map;
-    protected TiledMapTile tile;
     protected Rectangle bounds;
     protected Body body;
     protected Fixture fixture;

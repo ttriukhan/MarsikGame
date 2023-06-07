@@ -5,9 +5,13 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
-import com.marsik.MarsikGame;
 import com.marsik.screens.PlayScreen;
-import com.marsik.sprites.*;
+import com.marsik.sprites.enemies.Dron;
+import com.marsik.sprites.enemies.Soldier;
+import com.marsik.sprites.interactive.Bonus;
+import com.marsik.sprites.interactive.Platform;
+import com.marsik.sprites.interactive.Sample;
+import com.marsik.sprites.interactive.UFO;
 
 import java.util.ArrayList;
 import java.util.Random;

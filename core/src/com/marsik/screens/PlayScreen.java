@@ -1,11 +1,9 @@
 package com.marsik.screens;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.MathUtils;
-import com.marsik.sprites.Dron;
-import com.marsik.sprites.Enemy;
-import com.marsik.sprites.Soldier;
+import com.marsik.sprites.enemies.Dron;
+import com.marsik.sprites.enemies.Soldier;
 import tools.B2WorldCreator;
 import tools.WorldContactListener;
 import com.badlogic.gdx.Gdx;
@@ -20,7 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.marsik.MarsikGame;
+import tools.MarsikGame;
 import com.marsik.scenes.Hud;
 import com.marsik.sprites.Marsik;
 
@@ -36,9 +34,10 @@ public class PlayScreen implements Screen {
 
     private TmxMapLoader mapLoader;
     private TiledMap map;
+    private OrthogonalTiledMapRenderer renderer;
+
     private float mapWidth;
     private float mapHeight;
-    private OrthogonalTiledMapRenderer renderer;
 
     private World world;
     private Box2DDebugRenderer b2dr;
@@ -103,12 +102,22 @@ public class PlayScreen implements Screen {
 
         for(Dron dron : creator.getDrons())
             dron.update(dt);
-        for(Soldier sold : creator.getSoldiers())
+        for(Soldier sold : creator.getSoldiers()) {
             sold.update(dt);
+            if(sold.getY() >= player.getY()-player.getHeight() && sold.getY()<= player.getY() + player.getHeight()){
+                if(!sold.isMovingRight()) {
+                    if(sold.getX() > player.getX() && sold.getX() - player.getX() < 10*16/MarsikGame.PPM)
+                        sold.shoot(sold.getX(), sold.getY(), false);
+                    else sold.b2body.setActive(true);
+                } else {
+                    if(sold.getX() < player.getX() && player.getX() - sold.getX() < 10*16/MarsikGame.PPM)
+                        sold.shoot(sold.getX(), sold.getY(), true);
+                    else sold.b2body.setActive(true);
+                }
+            } else sold.b2body.setActive(true);
+        }
 
         hud.update(dt);
-
-        //gameCam.position.x = player.b2body.getPosition().x;
 
         float leftBoundary = player.b2body.getPosition().x - gamePort.getWorldWidth() / 2;
         float rightBoundary = player.b2body.getPosition().x + gamePort.getWorldWidth() / 2;

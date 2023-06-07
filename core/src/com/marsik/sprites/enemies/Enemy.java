@@ -1,10 +1,10 @@
-package com.marsik.sprites;
+package com.marsik.sprites.enemies;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.marsik.MarsikGame;
+import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public abstract class Enemy extends Sprite {
@@ -55,5 +55,9 @@ public abstract class Enemy extends Sprite {
     public void reverseVelocity(boolean x, boolean y) {
             if(x) velocity.x = -velocity.x;
             if(y) velocity.y = - velocity.y;
+    }
+
+    public boolean isMovingRight() {
+        return movingRight;
     }
 }

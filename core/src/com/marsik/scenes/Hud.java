@@ -10,8 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.marsik.MarsikGame;
-import com.marsik.sprites.Marsik;
+import tools.MarsikGame;
 
 public class Hud implements Disposable {
     public Stage stage;
