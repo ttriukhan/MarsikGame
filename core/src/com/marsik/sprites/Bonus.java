@@ -6,12 +6,14 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.marsik.MarsikGame;
+import com.marsik.scenes.Hud;
+import com.marsik.screens.PlayScreen;
 
 import java.util.Random;
 
 public class Bonus extends InteractiveTileObject{
-    public Bonus(World world, TiledMap map, Rectangle bounds) {
-        super(world, map, bounds);
+    public Bonus(PlayScreen screen, Rectangle bounds) {
+        super(screen, bounds);
         fixture.setUserData(this);
         setCategoryFilter(MarsikGame.SAMPLE_BIT);
     }
@@ -23,11 +25,20 @@ public class Bonus extends InteractiveTileObject{
         for (TiledMapTileLayer.Cell cell : getCell())
             cell.setTile(null);
 
-        Random ran = new Random(3);
-        int i = ran.nextInt(3);
-        if(i==0) bonus1();
-        if(i==1) bonus2();
-        if(i==2) bonus3();
+        Random ran = new Random();
+        int i = ran.nextInt(0,3);
+        if(i==0) {
+            Hud.addBonus(1, 5);
+            bonus1();
+        }
+        if(i==1) {
+            Hud.addBonus(2, 5);
+            bonus2();
+        }
+        if(i==2) {
+            Hud.addBonus(3, 5);
+            bonus3();
+        }
     }
 
     private void bonus3() {

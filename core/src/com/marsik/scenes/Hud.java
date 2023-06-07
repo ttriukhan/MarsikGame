@@ -11,26 +11,29 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.marsik.MarsikGame;
+import com.marsik.sprites.Marsik;
 
 public class Hud implements Disposable {
     public Stage stage;
     private Viewport viewport;
 
-    private Integer worldTimer;
-    private float timeCount;
-    private Integer score;
+    private static Integer timer;
+    private static float timeCount;
+    private static Integer score;
+    private static Integer health;
 
-    Label countdownLabel;
-    Label scoreLabel;
-    Label timeLabel;
-    Label levelLabel;
-    Label worldLabel;
-    Label marsikLabel;
+    private static Label countdownLabel;
+    private static Label scoreLabel;
+    private static Label bonusLabel;
+    private static Label healthLabel;
+    private Label healthL;
+    private Label marsikLabel;
 
     public Hud(SpriteBatch sb) {
-        worldTimer = 300;
+        timer = 0;
         timeCount = 0;
         score = 0;
+        health = 100;
 
         viewport = new FitViewport(MarsikGame.V_WIDTH, MarsikGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
@@ -39,23 +42,59 @@ public class Hud implements Disposable {
         table.top();
         table.setFillParent(true);
 
-        countdownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        marsikLabel = new Label("MARSIK", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        countdownLabel = new Label(String.format("%02d", timer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreLabel = new Label(String.format("%04d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        bonusLabel = new Label("NO BONUS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        healthLabel = new Label(String.format("%03d", health), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        healthL = new Label("HEALTH", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        marsikLabel = new Label("SAMPLES", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(marsikLabel).expandX().padTop(10);
-        table.add(worldLabel).expandX().padTop(10);
-        table.add(timeLabel).expandX().padTop(10);
+        table.add(bonusLabel).expandX().padTop(10);
+        table.add(healthL).expandX().padTop(10);
         table.row();
         table.add(scoreLabel).expandX();
-        table.add(levelLabel).expandX();
         table.add(countdownLabel).expandX();
+        table.add(healthLabel).expandX();
 
         stage.addActor(table);
+    }
 
+    public void update(float dt) {
+        timeCount +=dt;
+        if(timeCount>=1 && timer>0) {
+            timer--;
+            countdownLabel.setText(String.format("%02d", timer));
+            timeCount = 0;
+        }
+        if (timer==0)
+            bonusLabel.setText("NO BONUS");
+    }
+
+    public static void addBonus(int type, int time) {
+        bonusLabel.setText("BONUS " + type);
+        countdownLabel.setText(String.format("%02d", time));
+        timer = time;
+        timeCount = 0;
+    }
+
+    public  static void addScore(int value) {
+        score += value;
+        scoreLabel.setText(String.format("%04d", score));
+    }
+
+    public static void healthDown(int value) {
+        health -= value;
+        healthLabel.setText(String.format("%03d", health));
+    }
+
+    public static void healthUp(int value) {
+        health += value;
+        if (health>100)
+            health = 100;
+        if (health<0)
+            health = 0;
+        healthLabel.setText(String.format("%03d", health));
     }
 
     @Override

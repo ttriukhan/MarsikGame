@@ -18,9 +18,9 @@ public class Marsik extends Sprite {
     private float stateTimer;
     private boolean runningRight;
 
-    public Marsik(World world, PlayScreen screen) {
+    public Marsik(PlayScreen screen) {
         super(new TextureRegion(screen.getTexture()));
-        this.world = world;
+        this.world = screen.getWorld();
 
         currentState = State.STANDING;
         previousState = State.STANDING;
@@ -80,7 +80,7 @@ public class Marsik extends Sprite {
         shape.set(vertices);
 
         fdef.filter.categoryBits = MarsikGame.MARSIK_BIT;
-        fdef.filter.maskBits = MarsikGame.DEFAULT_BIT | MarsikGame.SAMPLE_BIT | MarsikGame.BONUS_BIT;
+        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.OBJECT_BIT | MarsikGame.SAMPLE_BIT | MarsikGame.BONUS_BIT;
 
         fdef.shape = shape;
 

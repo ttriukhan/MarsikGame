@@ -1,6 +1,7 @@
 package com.marsik.screens;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.marsik.sprites.Soldier;
 import tools.B2WorldCreator;
 import tools.WorldContactListener;
 import com.badlogic.gdx.Gdx;
@@ -37,6 +38,7 @@ public class PlayScreen implements Screen {
     private Box2DDebugRenderer b2dr;
 
     private Marsik player;
+    private Soldier soldier;
 
     public PlayScreen(MarsikGame game) {
         mTexture = new Texture(Gdx.files.internal("alien.png"));
@@ -54,8 +56,9 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0,-10), true);
         b2dr = new Box2DDebugRenderer();
 
-        new B2WorldCreator(world, map);
-        player = new Marsik(world, this);
+        new B2WorldCreator(this);
+        player = new Marsik(this);
+        soldier = new Soldier(this, .32f, .32f);
 
         world.setContactListener(new WorldContactListener());
     }
@@ -84,6 +87,9 @@ public class PlayScreen implements Screen {
         world.step(1/60f, 6, 2);
 
         player.update(dt);
+        soldier.update(dt);
+
+        hud.update(dt);
 
         gameCam.position.x = player.b2body.getPosition().x;
 
@@ -105,6 +111,7 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         player.draw(game.batch);
+        soldier.draw(game.batch);
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
@@ -115,6 +122,14 @@ public class PlayScreen implements Screen {
     public void resize(int width, int height) {
         gamePort.update(width, height);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
+    }
+
+    public TiledMap getMap() {
+        return map;
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     @Override

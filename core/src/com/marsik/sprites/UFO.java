@@ -4,10 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
+import com.marsik.screens.PlayScreen;
 
 public class UFO extends InteractiveTileObject{
-    public UFO(World world, TiledMap map, Rectangle bounds) {
-        super(world, map, bounds);
+    public UFO(PlayScreen screen, Rectangle bounds) {
+        super(screen, bounds);
         fixture.setUserData(this);
     }
 

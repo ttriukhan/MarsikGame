@@ -9,11 +9,13 @@ public class MarsikGame extends Game {
 	public static final int V_HEIGHT = 208;
 	public static final float PPM = 100;
 
-	public static final short DEFAULT_BIT = 1;
+	public static final short GROUND_BIT = 1;
 	public static final short MARSIK_BIT = 2;
 	public static final short SAMPLE_BIT = 4;
 	public static final short BONUS_BIT = 8;
 	public static final short GOT_BIT = 16;
+	public static final short OBJECT_BIT = 32;
+	public static final short ENEMY_BIT = 64;
 
 	public SpriteBatch batch;
 	
