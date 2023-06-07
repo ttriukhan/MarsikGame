@@ -80,7 +80,7 @@ public class Marsik extends Sprite {
         shape.set(vertices);
 
         fdef.filter.categoryBits = MarsikGame.MARSIK_BIT;
-        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.OBJECT_BIT | MarsikGame.SAMPLE_BIT | MarsikGame.BONUS_BIT;
+        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.OBJECT_BIT | MarsikGame.SAMPLE_BIT | MarsikGame.BONUS_BIT | MarsikGame.DRON_BIT;
 
         fdef.shape = shape;
 

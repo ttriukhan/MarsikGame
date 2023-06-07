@@ -71,8 +71,8 @@ public class Hud implements Disposable {
             bonusLabel.setText("NO BONUS");
     }
 
-    public static void addBonus(int type, int time) {
-        bonusLabel.setText("BONUS " + type);
+    public static void addBonus(String type, int time) {
+        bonusLabel.setText(type);
         countdownLabel.setText(String.format("%02d", time));
         timer = time;
         timeCount = 0;
@@ -83,12 +83,7 @@ public class Hud implements Disposable {
         scoreLabel.setText(String.format("%04d", score));
     }
 
-    public static void healthDown(int value) {
-        health -= value;
-        healthLabel.setText(String.format("%03d", health));
-    }
-
-    public static void healthUp(int value) {
+    public static void healthChange(int value) {
         health += value;
         if (health>100)
             health = 100;

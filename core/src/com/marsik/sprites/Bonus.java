@@ -1,10 +1,8 @@
 package com.marsik.sprites;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.World;
 import com.marsik.MarsikGame;
 import com.marsik.scenes.Hud;
 import com.marsik.screens.PlayScreen;
@@ -28,26 +26,26 @@ public class Bonus extends InteractiveTileObject{
         Random ran = new Random();
         int i = ran.nextInt(0,3);
         if(i==0) {
-            Hud.addBonus(1, 5);
-            bonus1();
+            Hud.addBonus("HEALTH BONUS", 5);
+            healthBonus();
         }
         if(i==1) {
-            Hud.addBonus(2, 5);
-            bonus2();
+            Hud.addBonus("RELOAD BONUS", 5);
+            reloadBonus();
         }
         if(i==2) {
-            Hud.addBonus(3, 5);
-            bonus3();
+            Hud.addBonus("RESISTANCE BONUS", 5);
+            resistance();
         }
     }
 
-    private void bonus3() {
+    private void resistance() {
     }
 
-    private void bonus2() {
+    private void reloadBonus() {
     }
 
-    private void bonus1() {
+    private void healthBonus() {
     }
 
 }

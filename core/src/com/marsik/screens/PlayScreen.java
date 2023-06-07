@@ -1,6 +1,7 @@
 package com.marsik.screens;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.marsik.sprites.Dron;
 import com.marsik.sprites.Soldier;
 import tools.B2WorldCreator;
 import tools.WorldContactListener;
@@ -39,6 +40,7 @@ public class PlayScreen implements Screen {
 
     private Marsik player;
     private Soldier soldier;
+    private Dron dron;
 
     public PlayScreen(MarsikGame game) {
         mTexture = new Texture(Gdx.files.internal("alien.png"));
@@ -58,7 +60,8 @@ public class PlayScreen implements Screen {
 
         new B2WorldCreator(this);
         player = new Marsik(this);
-        soldier = new Soldier(this, .32f, .32f);
+        soldier = new Soldier(this, 10*16/ MarsikGame.PPM, 5*16/MarsikGame.PPM,  15*16/MarsikGame.PPM);
+        dron = new Dron(this, 10*16/ MarsikGame.PPM, 2*16/MarsikGame.PPM, 15*16/MarsikGame.PPM);
 
         world.setContactListener(new WorldContactListener());
     }
@@ -88,6 +91,7 @@ public class PlayScreen implements Screen {
 
         player.update(dt);
         soldier.update(dt);
+        dron.update(dt);
 
         hud.update(dt);
 
@@ -112,6 +116,7 @@ public class PlayScreen implements Screen {
         game.batch.begin();
         player.draw(game.batch);
         soldier.draw(game.batch);
+        dron.draw(game.batch);
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);

@@ -1,7 +1,10 @@
 package tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
+import com.marsik.scenes.Hud;
 import com.marsik.sprites.InteractiveTileObject;
+import com.marsik.MarsikGame;
 
 public class WorldContactListener implements ContactListener {
     @Override
@@ -9,14 +12,22 @@ public class WorldContactListener implements ContactListener {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
 
+        int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
+
         if(fixA.getUserData()=="marsik" || fixB.getUserData() == "marsik") {
-            Fixture head = fixA.getUserData() == "marsik" ? fixA : fixB;
-            Fixture object = head == fixA ? fixB : fixA;
+            Fixture marsik = fixA.getUserData() == "marsik" ? fixA : fixB;
+            Fixture object = marsik == fixA ? fixB : fixA;
 
             if(object.getUserData() != null && InteractiveTileObject.class.isAssignableFrom(object.getUserData().getClass())) {
                 ((InteractiveTileObject) object.getUserData()).touchToMarsik();
             }
+        }
 
+        switch (cDef) {
+            case MarsikGame.DRON_BIT | MarsikGame.MARSIK_BIT:
+                Gdx.app.log("marsik","died");
+                Hud.healthChange(-50);
+                break;
         }
     }
 

@@ -2,6 +2,7 @@ package com.marsik.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -10,24 +11,22 @@ import com.marsik.screens.PlayScreen;
 
 public class Dron extends Enemy {
 
-    private float stateTime;
-
-    public Dron(PlayScreen screen, float x, float y) {
-        super(screen, x, y);
-        setBounds(getX(), getY(), 16 / MarsikGame.PPM, 16 / MarsikGame.PPM);
-        stateTime = 0;
+    public Dron(PlayScreen screen, float x, float y, float x2) {
+        super(screen, x, y, x2);
+        Texture dronTexture = new Texture(Gdx.files.internal("drone.gif"));
+        TextureRegion soldierRegion = new TextureRegion(dronTexture);
+        setBounds(0, 0, 24 / MarsikGame.PPM, 24 / MarsikGame.PPM);
+        setRegion(soldierRegion);
     }
 
     public void update(float dt) {
-        stateTime += dt;
-        b2body.setLinearVelocity(velocity);
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
+        super.update(dt);
     }
 
     @Override
     protected void defineEnemy() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(32/ MarsikGame.PPM, 32/MarsikGame.PPM);
+        bdef.position.set(x, y);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
@@ -38,18 +37,16 @@ public class Dron extends Enemy {
         float[] vertices = {
                 -8 / MarsikGame.PPM, -16 / MarsikGame.PPM, // bottom-left
                 8 / MarsikGame.PPM, -16 / MarsikGame.PPM, // bottom-right
-                8 / MarsikGame.PPM, 16 / MarsikGame.PPM, // top-right
-                -8 / MarsikGame.PPM, 16 / MarsikGame.PPM // top-left
+                8 / MarsikGame.PPM, 8 / MarsikGame.PPM, // top-right
+                -8 / MarsikGame.PPM, 8 / MarsikGame.PPM // top-left
         };
 
         shape.set(vertices);
 
-        fdef.filter.categoryBits = MarsikGame.ENEMY_BIT;
-        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.SAMPLE_BIT | MarsikGame.BONUS_BIT
-                | MarsikGame.ENEMY_BIT | MarsikGame.OBJECT_BIT;
-
+        fdef.filter.categoryBits = MarsikGame.DRON_BIT;
+        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.OBJECT_BIT | MarsikGame.MARSIK_BIT;
         fdef.shape = shape;
 
-        b2body.createFixture(fdef).setUserData("marsik");
+        b2body.createFixture(fdef).setUserData("dron");
     }
 }

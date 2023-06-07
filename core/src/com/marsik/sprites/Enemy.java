@@ -16,23 +16,48 @@ public abstract class Enemy extends Sprite {
     public Body b2body;
     public Vector2 velocity;
 
-    public Enemy(PlayScreen screen, float x, float y) {
+    protected float stateTime;
+    protected float x;
+    protected float y;
+    protected float x2;
+    protected boolean movingRight;
+
+
+    public Enemy(PlayScreen screen, float x, float y, float x2) {
         this.world = screen.getWorld();
         this.screen = screen;
+        this.x = x;
+        this.y = y;
+        this.x2 = x2;
+        movingRight = true;
         defineEnemy();
-        /*velocity = new Vector2(1,0);*/
+        velocity = new Vector2(1,0);
+        stateTime = 0;
+    }
 
+    public void update(float dt) {
+        stateTime += dt;
+        b2body.setLinearVelocity(velocity);
+        setPosition(b2body.getPosition().x - getWidth() /2,b2body.getPosition().y - getHeight()/2);
+        if(movingRight) {
+            if(b2body.getPosition().x>x2) {
+                reverseVelocity(true, false);
+                movingRight = false;
+            }
+        } else {
+            if(b2body.getPosition().x<x) {
+                reverseVelocity(true, false);
+                movingRight = true;
+            }
+        }
     }
 
     protected abstract void defineEnemy();
 
-    /*public void reverseVelocity(boolean x, boolean y) {
+    public void reverseVelocity(boolean x, boolean y) {
             if(x)
                 velocity.x = -velocity.x;
             if (y)
                 velocity.y = - velocity.y;
-        }
-
-    }*/
-
+    }
 }
