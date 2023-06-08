@@ -1,8 +1,7 @@
 package tools;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
-import com.marsik.scenes.Hud;
+import com.marsik.sprites.enemies.Dron;
 import com.marsik.sprites.interactive.InteractiveTileObject;
 import com.marsik.sprites.items.Bullet;
 
@@ -14,25 +13,29 @@ public class WorldContactListener implements ContactListener {
 
         int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 
-        if(fixA.getUserData()=="marsik" || fixB.getUserData() == "marsik") {
-            Fixture marsik = fixA.getUserData() == "marsik" ? fixA : fixB;
-            Fixture object = marsik == fixA ? fixB : fixA;
-
-            if(object.getUserData() != null && InteractiveTileObject.class.isAssignableFrom(object.getUserData().getClass())) {
-                ((InteractiveTileObject) object.getUserData()).touchToMarsik();
-                contact.setEnabled(false);
-            }
-
-            if(object.getUserData() != null && Bullet.class.isAssignableFrom(object.getUserData().getClass())) {
-                ((Bullet) object.getUserData()).touchToMarsik();
-                contact.setEnabled(false);
-            }
-        }
-
         switch (cDef) {
+
+            case MarsikGame.OBJECT_BIT | MarsikGame.MARSIK_BIT:
+                if(fixA.getFilterData().categoryBits == MarsikGame.OBJECT_BIT)
+                    ((InteractiveTileObject) fixA.getUserData()).touchToMarsik();
+                else
+                    ((InteractiveTileObject) fixB.getUserData()).touchToMarsik();
+                contact.setEnabled(false);
+                break;
+
+            case MarsikGame.BULLET_BIT | MarsikGame.MARSIK_BIT:
+                if(fixA.getFilterData().categoryBits == MarsikGame.BULLET_BIT)
+                    ((Bullet) fixA.getUserData()).hitMarsik();
+                else
+                    ((Bullet) fixB.getUserData()).hitMarsik();
+                contact.setEnabled(false);
+                break;
+
             case MarsikGame.DRON_BIT | MarsikGame.MARSIK_BIT:
-                Hud.healthChange(-25);
-                Gdx.app.log("marsik","died");
+                if(fixA.getFilterData().categoryBits == MarsikGame.DRON_BIT)
+                    ((Dron) fixA.getUserData()).hitMarsik();
+                else
+                    ((Dron) fixB.getUserData()).hitMarsik();
                 break;
         }
     }

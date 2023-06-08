@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.marsik.scenes.Hud;
 import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
@@ -47,6 +48,12 @@ public class Dron extends Enemy {
         fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.MARSIK_BIT;
         fdef.shape = shape;
 
-        b2body.createFixture(fdef).setUserData("dron");
+        b2body.createFixture(fdef).setUserData(this);
     }
+
+    public void hitMarsik() {
+        Hud.healthChange(-25);
+        Gdx.app.log("dron","hit");
+    }
+
 }

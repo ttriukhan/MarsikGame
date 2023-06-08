@@ -83,12 +83,12 @@ public class Marsik extends Sprite {
         shape.set(vertices);
 
         fdef.filter.categoryBits = MarsikGame.MARSIK_BIT;
-        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.BONUS_BIT
-                | MarsikGame.DRON_BIT | MarsikGame.SAMPLE_BIT | MarsikGame.UFO_BIT | MarsikGame.BULLET_BIT;
+        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.OBJECT_BIT
+                | MarsikGame.DRON_BIT | MarsikGame.UFO_BIT | MarsikGame.BULLET_BIT;
 
         fdef.shape = shape;
 
-        b2body.createFixture(fdef).setUserData("marsik");
+        b2body.createFixture(fdef).setUserData(this);
     }
 
 }

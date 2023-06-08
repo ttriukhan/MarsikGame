@@ -11,14 +11,13 @@ public class MarsikGame extends Game {
 
 	public static final short GROUND_BIT = 1;
 	public static final short MARSIK_BIT = 2;
-	public static final short SAMPLE_BIT = 4;
-	public static final short BONUS_BIT = 8;
-	public static final short GOT_BIT = 16;
-	public static final short PLATFORM_BIT = 32;
-	public static final short SOLDIER_BIT = 64;
-	public static final short DRON_BIT = 128;
-	public static final short UFO_BIT = 256;
-	public static final short BULLET_BIT = 512;
+	public static final short OBJECT_BIT = 4;
+	public static final short GOT_BIT = 8;
+	public static final short PLATFORM_BIT = 16;
+	public static final short SOLDIER_BIT = 32;
+	public static final short DRON_BIT = 64;
+	public static final short UFO_BIT = 128;
+	public static final short BULLET_BIT = 256;
 
 	public SpriteBatch batch;
 	

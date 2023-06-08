@@ -211,9 +211,8 @@ public class PlayScreen implements Screen {
         for(Soldier sold : creator.getSoldiers())
             sold.draw(game.batch);
 
-        for(Bullet bullet : bullets) {
+        for(Bullet bullet : bullets)
             bullet.draw(game.batch);
-        }
 
         player.draw(game.batch);
         game.batch.end();

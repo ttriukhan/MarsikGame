@@ -2,9 +2,9 @@ package com.marsik.sprites.items;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.marsik.scenes.Hud;
@@ -17,12 +17,16 @@ public class Bullet extends Sprite {
     private World world;
     private Vector2 velocity;
     private Body body;
+    private boolean toDestroy;
+    private boolean destroyed;
 
 
     public Bullet(PlayScreen screen, float x, float y, boolean right) {
         super();
         this.screen = screen;
         this.world = screen.getWorld();
+        toDestroy = false;
+        destroyed = false;
         setPosition(x,y);
         defineItem();
         if(right) velocity = new Vector2(1,0);
@@ -32,8 +36,14 @@ public class Bullet extends Sprite {
     }
 
     public void update(float dt) {
-        setPosition(body.getPosition().x - getWidth() /2,body.getPosition().y - getHeight()/2);
-        body.setLinearVelocity(velocity);
+        if(toDestroy && !destroyed) {
+            world.destroyBody(body);
+            destroyed = true;
+        }
+        if(!destroyed) {
+            setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
+            body.setLinearVelocity(velocity);
+        }
     }
 
     public void defineItem() {
@@ -61,10 +71,15 @@ public class Bullet extends Sprite {
         body.createFixture(fdef).setUserData(this);
     }
 
-    public void touchToMarsik() {
+    public void draw(Batch batch) {
+        if(!destroyed)
+            super.draw(batch);
+    }
+
+    public void hitMarsik() {
         Hud.healthChange(-10);
-        //world.destroyBody(body);
-        screen.getBullets().remove(this);
+        Gdx.app.log("bullet","hit");
+        toDestroy = true;
     }
 
 }

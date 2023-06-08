@@ -15,7 +15,7 @@ public class Bonus extends InteractiveTileObject {
     public Bonus(PlayScreen screen, Rectangle bounds) {
         super(screen, bounds);
         fixture.setUserData(this);
-        setCategoryFilter(MarsikGame.BONUS_BIT);
+        setCategoryFilter(MarsikGame.OBJECT_BIT);
     }
 
     @Override
