@@ -129,34 +129,34 @@ public class PlayScreen implements Screen {
     public void update(float dt) {
         handleInput(dt);
 
-        world.step(1/60f, 6, 2);
+        world.step(1 / 60f, 6, 2);
 
         player.update(dt);
 
         bonusUpdate(dt);
 
-        for(Dron dron : creator.getDrons())
+        for (Dron dron : creator.getDrons())
             dron.update(dt);
 
-        for(Soldier sold : creator.getSoldiers()) {
+        for (Soldier sold : creator.getSoldiers()) {
             sold.update(dt);
-            if(sold.getY() >= player.getY()-player.getHeight() && sold.getY()<= player.getY() + player.getHeight()){
-                if(!sold.isMovingRight()) {
-                    if(sold.getX() > player.getX() && sold.getX() - player.getX() < 10*16/MarsikGame.PPM)
+            if (sold.getY() >= player.getY() - player.getHeight() && sold.getY() <= player.getY() + player.getHeight()) {
+                if (!sold.isMovingRight()) {
+                    if (sold.getX() > player.getX() && sold.getX() - player.getX() < 10 * 16 / MarsikGame.PPM)
                         sold.shoot();
                     else sold.shooting = false;
                 } else {
-                    if(sold.getX() < player.getX() && player.getX() - sold.getX() < 10*16/MarsikGame.PPM)
+                    if (sold.getX() < player.getX() && player.getX() - sold.getX() < 10 * 16 / MarsikGame.PPM)
                         sold.shoot();
                     else sold.shooting = false;
                 }
             } else sold.shooting = false;
         }
 
-        for(Bullet bullet : bullets)
+        for (Bullet bullet : bullets)
             bullet.update(dt);
 
-        for(Bullet bullet : freezeBullets)
+        for (Bullet bullet : freezeBullets)
             bullet.update(dt);
 
         hud.update(dt);

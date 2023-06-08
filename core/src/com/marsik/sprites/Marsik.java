@@ -11,7 +11,7 @@ import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public class Marsik extends Sprite {
-    public enum State {JUMPING, FALLING, STANDING, RUNNING};
+    public enum State {JUMPING, FALLING, STANDING, RUNNING, DIED};
     public State currentState;
     public State previousState;
 
@@ -22,6 +22,7 @@ public class Marsik extends Sprite {
     public boolean movingRight;
     private float stateTimer;
     private Integer health;
+    private boolean dead;
 
     public Marsik(PlayScreen screen) {
         super(new TextureRegion(new Texture(Gdx.files.internal("alien.png"))));
@@ -32,6 +33,7 @@ public class Marsik extends Sprite {
         stateTimer= 0;
         movingRight = true;
         health = 100;
+        dead = false;
 
         defineMarsik();
         setBounds(0, 0, 16 / MarsikGame.PPM, 32 / MarsikGame.PPM);
@@ -63,10 +65,13 @@ public class Marsik extends Sprite {
             health=100;
         if(health<=0) {
             Gdx.app.log("marsik", "dead");
+            dead = true;
         }
     }
 
     private State getState() {
+        if(dead)
+            return State.DIED;
         if(b2body.getLinearVelocity().y >0 )
             return State.JUMPING;
         else if(b2body.getLinearVelocity().y <0)
