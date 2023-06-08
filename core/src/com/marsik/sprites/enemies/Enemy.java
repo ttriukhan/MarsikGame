@@ -39,18 +39,17 @@ public abstract class Enemy extends Sprite {
         setPosition(b2body.getPosition().x - getWidth() /2,b2body.getPosition().y - getHeight()/2);
         if(movingRight) {
             if(b2body.getPosition().x>(x+deltaX*16/MarsikGame.PPM)) {
-                reverseVelocity(true, false);
-                movingRight = false;
+                changeMove();
             }
         } else {
             if(b2body.getPosition().x<x) {
-                reverseVelocity(true, false);
-                movingRight = true;
+                changeMove();
             }
         }
     }
 
     protected abstract void defineEnemy();
+    protected abstract void changeMove();
 
     public void reverseVelocity(boolean x, boolean y) {
             if(x) velocity.x = -velocity.x;

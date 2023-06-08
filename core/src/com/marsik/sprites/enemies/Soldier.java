@@ -13,10 +13,14 @@ import com.marsik.screens.PlayScreen;
 public class Soldier extends Enemy {
 
     private float timer;
+    private TextureRegion right;
+    private TextureRegion left;
 
     public Soldier(PlayScreen screen, float x, float y, float delta, float speed) {
         super(screen, x, y, delta, speed);
-        setRegion(new TextureRegion(new Texture(Gdx.files.internal("soldier.png"))));
+        right = new TextureRegion(new Texture(Gdx.files.internal("soldierRight.png")));
+        left = new TextureRegion(new Texture(Gdx.files.internal("soldierLeft.png")));
+        setRegion(right);
         setBounds(0, 0, 16 / MarsikGame.PPM, 24 / MarsikGame.PPM);
     }
 
@@ -49,6 +53,14 @@ public class Soldier extends Enemy {
         fdef.shape = shape;
 
         b2body.createFixture(fdef).setUserData(this);
+    }
+
+    @Override
+    protected void changeMove() {
+        reverseVelocity(true, false);
+        movingRight = !movingRight;
+        if(movingRight) setRegion(right);
+        else setRegion(left);
     }
 
     public void shoot() {

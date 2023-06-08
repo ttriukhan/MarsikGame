@@ -51,6 +51,12 @@ public class Dron extends Enemy {
         b2body.createFixture(fdef).setUserData(this);
     }
 
+    @Override
+    protected void changeMove() {
+        reverseVelocity(true, false);
+        movingRight = !movingRight;
+    }
+
     public void hitMarsik() {
         Hud.healthChange(-25);
         Gdx.app.log("dron","hit");
