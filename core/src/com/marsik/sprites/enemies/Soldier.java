@@ -1,6 +1,7 @@
 package com.marsik.sprites.enemies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -39,6 +40,10 @@ public class Soldier extends Enemy {
         if(frozen) {
             b2body.setActive(false);
             if(timer>=5) {
+
+                Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/unfreeze.wav"));
+                touchSound.play();
+
                 frozen = false;
                 b2body.setActive(true);
                 if(movingRight) setRegion(right);
@@ -87,6 +92,10 @@ public class Soldier extends Enemy {
         if(!frozen) {
             shooting = true;
             if (timer >= 1) {
+
+                Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/sShot.wav"));
+                touchSound.play();
+
                 screen.getBullets().add(new SoldierBullet(screen, b2body.getPosition().x, b2body.getPosition().y, movingRight));
                 timer = 0;
             }
@@ -94,6 +103,10 @@ public class Soldier extends Enemy {
     }
 
     public void freeze() {
+
+        Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/freeze.wav"));
+        touchSound.play(0.5f);
+
         frozen = true;
         timer=0;
         if(movingRight) setRegion(rightFrozen);

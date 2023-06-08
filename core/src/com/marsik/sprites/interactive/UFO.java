@@ -14,6 +14,7 @@ public class UFO extends InteractiveTileObject {
 
     @Override
     public void touchToMarsik() {
+
         Gdx.app.log("ufo","the end");
     }
 

@@ -1,10 +1,9 @@
 package com.marsik.sprites.enemies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -65,19 +64,11 @@ public class Dron extends Enemy {
 
     public void hitMarsik() {
         if(screen.currentBonus != Marsik.BonusStatus.RESISTANCE) {
+
+            Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/hit.wav"));
+            touchSound.play();
+
             screen.getPlayer().changeHealth(-25);
-            Body body = screen.getPlayer().b2body;
-            if (screen.getPlayer().currentState== Marsik.State.RUNNING || screen.getPlayer().currentState== Marsik.State.JUMPING) {
-                if(screen.getPlayer().movingRight) body.setLinearVelocity(new Vector2(-2, 2));
-                else body.setLinearVelocity(new Vector2(2, 2));
-            }
-            if (screen.getPlayer().currentState== Marsik.State.STANDING) {
-                if(movingRight) body.setLinearVelocity(new Vector2(2, 2));
-                else body.setLinearVelocity(new Vector2(-2, 2));
-            }
-            if (screen.getPlayer().currentState== Marsik.State.FALLING) {
-                body.setLinearVelocity(new Vector2(0, 3));
-            }
         }
     }
 

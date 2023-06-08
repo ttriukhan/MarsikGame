@@ -1,6 +1,7 @@
 package com.marsik.sprites.interactive;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import tools.MarsikGame;
@@ -17,6 +18,10 @@ public class Sample extends InteractiveTileObject {
     @Override
     public void touchToMarsik() {
         setCategoryFilter(MarsikGame.GOT_BIT);
+
+        Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/sample.wav"));
+        touchSound.play();
+
         getCell().setTile(null);
         Hud.addScore(1000);
     }

@@ -1,6 +1,7 @@
 package com.marsik.sprites.interactive;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.marsik.sprites.Marsik;
@@ -21,6 +22,10 @@ public class Bonus extends InteractiveTileObject {
     @Override
     public void touchToMarsik() {
         setCategoryFilter(MarsikGame.GOT_BIT);
+
+        Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/bonus.wav"));
+        touchSound.play();
+
         getCell().setTile(null);
 
         Random ran = new Random();

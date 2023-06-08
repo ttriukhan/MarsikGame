@@ -1,5 +1,7 @@
 package com.marsik.screens;
 
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 import com.marsik.sprites.enemies.Dron;
 import com.marsik.sprites.enemies.Soldier;
@@ -57,6 +59,9 @@ public class PlayScreen implements Screen {
     private float reloadTimer;
     private float reloadTime;
 
+    private Music backgroundMusic;
+
+
     public PlayScreen(MarsikGame game) {
 
         this.game = game;
@@ -89,6 +94,10 @@ public class PlayScreen implements Screen {
         reloadTime = 2;
         reloadTimer = reloadTime;
 
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music/marsik.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.2f);
+
         world.setContactListener(new WorldContactListener());
     }
 
@@ -102,21 +111,30 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
-
+        backgroundMusic.play();
     }
 
     private void handleInput(float dt) {
         if(currentBonus== Marsik.BonusStatus.RELOAD) reloadTimer+=3*dt;
         else reloadTimer+=dt;
 
-        if((Gdx.input.isKeyJustPressed((Input.Keys.UP)) || Gdx.input.isKeyJustPressed((Input.Keys.W))) && player.currentState!= Marsik.State.FALLING && player.currentState!= Marsik.State.JUMPING)
+        if((Gdx.input.isKeyJustPressed((Input.Keys.UP)) || Gdx.input.isKeyJustPressed((Input.Keys.W))) && player.currentState!= Marsik.State.FALLING && player.currentState!= Marsik.State.JUMPING) {
+
+            Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/jump.wav"));
+            touchSound.play();
+
             player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
-        if((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed((Input.Keys.D))) && player.b2body.getLinearVelocity().x <= 1.5)
-            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
-        if((Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed((Input.Keys.A))) && player.b2body.getLinearVelocity().x >= -1.5)
-            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+        }
+        if((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed((Input.Keys.D))) && player.b2body.getLinearVelocity().x <= 2)
+            player.b2body.applyLinearImpulse(new Vector2(0.08f, 0), player.b2body.getWorldCenter(), true);
+        if((Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed((Input.Keys.A))) && player.b2body.getLinearVelocity().x >= -2)
+            player.b2body.applyLinearImpulse(new Vector2(-0.08f, 0), player.b2body.getWorldCenter(), true);
         if((Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) && reloadTimer>=reloadTime) {
-            freezeBullets.add(new FreezeBullet(this, player.b2body.getPosition().x, player.b2body.getPosition().y, player.movingRight));
+
+            Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/mShot.wav"));
+            touchSound.play();
+
+            freezeBullets.add(new FreezeBullet(this, player.b2body.getPosition().x, player.b2body.getPosition().y, player.runningRight));
             reloadTimer=0;
         }
 
@@ -274,6 +292,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
+        backgroundMusic.dispose();
         map.dispose();
         renderer.dispose();
         world.dispose();
