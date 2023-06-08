@@ -1,10 +1,10 @@
 package com.marsik.screens;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.marsik.sprites.enemies.Dron;
 import com.marsik.sprites.enemies.Soldier;
 import com.marsik.sprites.items.Bullet;
+import com.marsik.sprites.items.FreezeBullet;
 import tools.B2WorldCreator;
 import tools.WorldContactListener;
 import com.badlogic.gdx.Gdx;
@@ -29,8 +29,6 @@ public class PlayScreen implements Screen {
 
     private MarsikGame game;
 
-    private Texture mTexture;
-
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private Hud hud;
@@ -48,14 +46,18 @@ public class PlayScreen implements Screen {
 
     private Marsik player;
     private ArrayList<Bullet> bullets;
+    private ArrayList<Bullet> freezeBullets;
 
     public Marsik.BonusStatus currentBonus;
     public Marsik.BonusStatus previousBonus;
     private float bonusSec;
     private float bonusTimer;
+    private boolean reloadBonus;
+
+    private float reloadTimer;
+    private float reloadTime;
 
     public PlayScreen(MarsikGame game) {
-        mTexture = new Texture(Gdx.files.internal("alien.png"));
 
         this.game = game;
         gameCam = new OrthographicCamera();
@@ -76,25 +78,22 @@ public class PlayScreen implements Screen {
 
         player = new Marsik(this);
         bullets = new ArrayList<>();
+        freezeBullets = new ArrayList<>();
 
         currentBonus = Marsik.BonusStatus.NONE;
         previousBonus = Marsik.BonusStatus.NONE;
         bonusTimer = 0;
         bonusSec = 0;
+        reloadBonus = false;
+
+        reloadTime = 5;
+        reloadTimer = reloadTime;
 
         world.setContactListener(new WorldContactListener());
     }
 
-    public void spawnBullet(Bullet bullet) {
-        bullets.add(bullet);
-    }
-
     public ArrayList<Bullet> getBullets() {
         return bullets;
-    }
-
-    public Texture getTexture() {
-        return mTexture;
     }
 
     @Override
@@ -103,12 +102,19 @@ public class PlayScreen implements Screen {
     }
 
     private void handleInput(float dt) {
+        if(reloadBonus) reloadTimer+=3*dt;
+        else reloadTimer+=dt;
+
         if((Gdx.input.isKeyJustPressed((Input.Keys.UP)) || Gdx.input.isKeyJustPressed((Input.Keys.W))) && player.currentState!= Marsik.State.FALLING && player.currentState!= Marsik.State.JUMPING)
             player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
         if((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed((Input.Keys.D))) && player.b2body.getLinearVelocity().x <= 2)
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
         if((Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed((Input.Keys.A))) && player.b2body.getLinearVelocity().x >= -2)
             player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+        if((Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) && reloadTimer>=reloadTime) {
+            freezeBullets.add(new FreezeBullet(this, player.b2body.getPosition().x, player.b2body.getPosition().y, player.runningRight));
+            reloadTimer=0;
+        }
 
         float clampedX = MathUtils.clamp(player.b2body.getPosition().x, player.getWidth()/2, mapWidth-player.getWidth()/2);
         float clampedY = MathUtils.clamp(player.b2body.getPosition().y, 0, mapHeight+player.getHeight());
@@ -123,7 +129,6 @@ public class PlayScreen implements Screen {
 
         player.update(dt);
 
-
         bonusUpdate(dt);
 
         for(Dron dron : creator.getDrons())
@@ -135,18 +140,20 @@ public class PlayScreen implements Screen {
                 if(!sold.isMovingRight()) {
                     if(sold.getX() > player.getX() && sold.getX() - player.getX() < 10*16/MarsikGame.PPM)
                         sold.shoot();
-                    else sold.b2body.setActive(true);
+                    else sold.shooting = false;
                 } else {
                     if(sold.getX() < player.getX() && player.getX() - sold.getX() < 10*16/MarsikGame.PPM)
                         sold.shoot();
-                    else sold.b2body.setActive(true);
+                    else sold.shooting = false;
                 }
-            } else sold.b2body.setActive(true);
+            } else sold.shooting = false;
         }
 
-        for(Bullet bullet : bullets) {
+        for(Bullet bullet : bullets)
             bullet.update(dt);
-        }
+
+        for(Bullet bullet : freezeBullets)
+            bullet.update(dt);
 
         hud.update(dt);
 
@@ -212,6 +219,9 @@ public class PlayScreen implements Screen {
             sold.draw(game.batch);
 
         for(Bullet bullet : bullets)
+            bullet.draw(game.batch);
+
+        for(Bullet bullet : freezeBullets)
             bullet.draw(game.batch);
 
         player.draw(game.batch);

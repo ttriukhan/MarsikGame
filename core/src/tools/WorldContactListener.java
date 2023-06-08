@@ -2,8 +2,10 @@ package tools;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.marsik.sprites.enemies.Dron;
+import com.marsik.sprites.enemies.Soldier;
 import com.marsik.sprites.interactive.InteractiveTileObject;
-import com.marsik.sprites.items.Bullet;
+import com.marsik.sprites.items.FreezeBullet;
+import com.marsik.sprites.items.SoldierBullet;
 
 public class WorldContactListener implements ContactListener {
     @Override
@@ -23,11 +25,19 @@ public class WorldContactListener implements ContactListener {
                 contact.setEnabled(false);
                 break;
 
-            case MarsikGame.BULLET_BIT | MarsikGame.MARSIK_BIT:
-                if(fixA.getFilterData().categoryBits == MarsikGame.BULLET_BIT)
-                    ((Bullet) fixA.getUserData()).hitMarsik();
+            case MarsikGame.SOLDIER_BULLET_BIT | MarsikGame.MARSIK_BIT:
+                if(fixA.getFilterData().categoryBits == MarsikGame.SOLDIER_BULLET_BIT)
+                    ((SoldierBullet) fixA.getUserData()).hitMarsik();
                 else
-                    ((Bullet) fixB.getUserData()).hitMarsik();
+                    ((SoldierBullet) fixB.getUserData()).hitMarsik();
+                contact.setEnabled(false);
+                break;
+
+            case MarsikGame.SOLDIER_BULLET_BIT | MarsikGame.UFO_BIT:
+                if(fixA.getFilterData().categoryBits == MarsikGame.SOLDIER_BULLET_BIT)
+                    ((SoldierBullet) fixA.getUserData()).destroy();
+                else
+                    ((SoldierBullet) fixB.getUserData()).destroy();
                 contact.setEnabled(false);
                 break;
 
@@ -36,6 +46,24 @@ public class WorldContactListener implements ContactListener {
                     ((Dron) fixA.getUserData()).hitMarsik();
                 else
                     ((Dron) fixB.getUserData()).hitMarsik();
+                contact.setEnabled(false);
+                break;
+
+            case MarsikGame.FREEZE_BULLET_BIT | MarsikGame.SOLDIER_BIT:
+                if(fixA.getFilterData().categoryBits == MarsikGame.FREEZE_BULLET_BIT)
+                    ((Soldier) fixB.getUserData()).freeze();
+                else
+                    ((Soldier) fixA.getUserData()).freeze();
+                contact.setEnabled(false);
+
+            case MarsikGame.FREEZE_BULLET_BIT | MarsikGame.PLATFORM_BIT:
+            case MarsikGame.FREEZE_BULLET_BIT | MarsikGame.UFO_BIT:
+            case MarsikGame.FREEZE_BULLET_BIT | MarsikGame.DRON_BIT:
+                if(fixA.getFilterData().categoryBits == MarsikGame.FREEZE_BULLET_BIT)
+                    ((FreezeBullet) fixA.getUserData()).destroy();
+                else
+                    ((FreezeBullet) fixB.getUserData()).destroy();
+                contact.setEnabled(false);
                 break;
         }
     }

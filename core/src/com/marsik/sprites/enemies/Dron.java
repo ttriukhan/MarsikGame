@@ -22,6 +22,8 @@ public class Dron extends Enemy {
 
     public void update(float dt) {
         super.update(dt);
+        b2body.setLinearVelocity(velocity);
+        setPosition(b2body.getPosition().x - getWidth() /2,b2body.getPosition().y - getHeight()/2);
     }
 
     @Override
@@ -29,6 +31,7 @@ public class Dron extends Enemy {
         BodyDef bdef = new BodyDef();
         bdef.position.set(x, y);
         bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.gravityScale=0;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
@@ -45,7 +48,7 @@ public class Dron extends Enemy {
         shape.set(vertices);
 
         fdef.filter.categoryBits = MarsikGame.DRON_BIT;
-        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.MARSIK_BIT;
+        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.MARSIK_BIT | MarsikGame.FREEZE_BULLET_BIT;
         fdef.shape = shape;
 
         b2body.createFixture(fdef).setUserData(this);

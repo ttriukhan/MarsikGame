@@ -1,27 +1,21 @@
 package com.marsik.sprites.items;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.marsik.scenes.Hud;
 import com.marsik.screens.PlayScreen;
-import tools.MarsikGame;
 
-public class Bullet extends Sprite {
+public abstract class Bullet extends Sprite {
 
-    private PlayScreen screen;
-    private World world;
-    private Vector2 velocity;
-    private Body body;
-    private boolean toDestroy;
-    private boolean destroyed;
+    protected PlayScreen screen;
+    protected World world;
+    protected Vector2 velocity;
+    protected Body body;
+    protected boolean toDestroy;
+    protected boolean destroyed;
 
-
-    public Bullet(PlayScreen screen, float x, float y, boolean right) {
+    public Bullet(PlayScreen screen, float x, float y, boolean right, float speed) {
         super();
         this.screen = screen;
         this.world = screen.getWorld();
@@ -29,10 +23,8 @@ public class Bullet extends Sprite {
         destroyed = false;
         setPosition(x,y);
         defineItem();
-        if(right) velocity = new Vector2(1,0);
-        else velocity = new Vector2(-1,0);
-        setRegion(new TextureRegion(new Texture(Gdx.files.internal("bullet.png"))));
-        setBounds(0, 0, 6 / MarsikGame.PPM, 3 / MarsikGame.PPM);
+        if(right) velocity = new Vector2(speed,0);
+        else velocity = new Vector2(-speed,0);
     }
 
     public void update(float dt) {
@@ -46,40 +38,15 @@ public class Bullet extends Sprite {
         }
     }
 
-    public void defineItem() {
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(getX(), getY());
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.gravityScale=0;
-        body = world.createBody(bdef);
+    public abstract void defineItem();
 
-        FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-
-        float[] vertices = {
-                -1 / MarsikGame.PPM, -1 / MarsikGame.PPM, // bottom-left
-                1 / MarsikGame.PPM, -1 / MarsikGame.PPM, // bottom-right
-                1 / MarsikGame.PPM, 1 / MarsikGame.PPM, // top-right
-                -1 / MarsikGame.PPM, 1 / MarsikGame.PPM // top-left
-        };
-        shape.set(vertices);
-
-        fdef.filter.categoryBits = MarsikGame.BULLET_BIT;
-        fdef.filter.maskBits = MarsikGame.MARSIK_BIT;
-        fdef.shape = shape;
-
-        body.createFixture(fdef).setUserData(this);
+    public void destroy(){
+        toDestroy = true;
     }
 
     public void draw(Batch batch) {
         if(!destroyed)
             super.draw(batch);
-    }
-
-    public void hitMarsik() {
-        Hud.healthChange(-10);
-        Gdx.app.log("bullet","hit");
-        toDestroy = true;
     }
 
 }

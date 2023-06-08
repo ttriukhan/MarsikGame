@@ -1,10 +1,10 @@
 package com.marsik.sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
-import com.marsik.scenes.Hud;
-import com.marsik.sprites.interactive.Bonus;
 import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
@@ -17,12 +17,11 @@ public class Marsik extends Sprite {
 
     public World world;
     public Body b2body;
-
+    public boolean runningRight;
     private float stateTimer;
-    private boolean runningRight;
 
     public Marsik(PlayScreen screen) {
-        super(new TextureRegion(screen.getTexture()));
+        super(new TextureRegion(new Texture(Gdx.files.internal("alien.png"))));
         this.world = screen.getWorld();
 
         currentState = State.STANDING;
@@ -84,7 +83,7 @@ public class Marsik extends Sprite {
 
         fdef.filter.categoryBits = MarsikGame.MARSIK_BIT;
         fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.OBJECT_BIT
-                | MarsikGame.DRON_BIT | MarsikGame.UFO_BIT | MarsikGame.BULLET_BIT;
+                | MarsikGame.DRON_BIT | MarsikGame.UFO_BIT | MarsikGame.SOLDIER_BULLET_BIT;
 
         fdef.shape = shape;
 
