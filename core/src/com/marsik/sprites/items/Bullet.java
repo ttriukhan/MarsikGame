@@ -4,17 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.marsik.scenes.Hud;
 import com.marsik.screens.PlayScreen;
 import tools.MarsikGame;
 
 public class Bullet extends Sprite {
 
-    protected PlayScreen screen;
-    protected World world;
-    protected Vector2 velocity;
-    protected Body body;
+    private PlayScreen screen;
+    private World world;
+    private Vector2 velocity;
+    private Body body;
+
 
     public Bullet(PlayScreen screen, float x, float y, boolean right) {
         super();
@@ -56,6 +59,12 @@ public class Bullet extends Sprite {
         fdef.shape = shape;
 
         body.createFixture(fdef).setUserData(this);
+    }
+
+    public void touchToMarsik() {
+        Hud.healthChange(-10);
+        //world.destroyBody(body);
+        screen.getBullets().remove(this);
     }
 
 }

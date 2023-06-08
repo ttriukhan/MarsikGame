@@ -49,6 +49,11 @@ public class PlayScreen implements Screen {
     private Marsik player;
     private ArrayList<Bullet> bullets;
 
+    public Marsik.BonusStatus currentBonus;
+    public Marsik.BonusStatus previousBonus;
+    private float bonusSec;
+    private float bonusTimer;
+
     public PlayScreen(MarsikGame game) {
         mTexture = new Texture(Gdx.files.internal("alien.png"));
 
@@ -72,11 +77,20 @@ public class PlayScreen implements Screen {
         player = new Marsik(this);
         bullets = new ArrayList<>();
 
+        currentBonus = Marsik.BonusStatus.NONE;
+        previousBonus = Marsik.BonusStatus.NONE;
+        bonusTimer = 0;
+        bonusSec = 0;
+
         world.setContactListener(new WorldContactListener());
     }
 
     public void spawnBullet(Bullet bullet) {
         bullets.add(bullet);
+    }
+
+    public ArrayList<Bullet> getBullets() {
+        return bullets;
     }
 
     public Texture getTexture() {
@@ -108,6 +122,9 @@ public class PlayScreen implements Screen {
         world.step(1/60f, 6, 2);
 
         player.update(dt);
+
+
+        bonusUpdate(dt);
 
         for(Dron dron : creator.getDrons())
             dron.update(dt);
@@ -146,6 +163,32 @@ public class PlayScreen implements Screen {
 
         gameCam.update();
         renderer.setView(gameCam);
+    }
+
+    private void bonusUpdate(float dt) {
+        if(currentBonus!= Marsik.BonusStatus.NONE && currentBonus!=previousBonus) {
+            bonusTimer  = 0;
+            bonusSec = 1;
+        }
+
+        if(bonusSec>=1) {
+            if (currentBonus == Marsik.BonusStatus.HEALTH) {
+                Gdx.app.log("bonus", "health");
+                Hud.healthChange(10);
+            }
+            if (currentBonus == Marsik.BonusStatus.RELOAD) {
+                Gdx.app.log("bonus", "reload");
+            }
+            if (currentBonus == Marsik.BonusStatus.RESISTANCE) {
+                Gdx.app.log("bonus", "resistance");
+            }
+            bonusSec=0;
+        }
+
+        bonusTimer += dt;
+        bonusSec += dt;
+        previousBonus = currentBonus;
+        if(bonusTimer>=5) currentBonus = Marsik.BonusStatus.NONE;
     }
 
     @Override

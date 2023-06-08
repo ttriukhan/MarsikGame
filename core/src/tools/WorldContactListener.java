@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.marsik.scenes.Hud;
 import com.marsik.sprites.interactive.InteractiveTileObject;
+import com.marsik.sprites.items.Bullet;
 
 public class WorldContactListener implements ContactListener {
     @Override
@@ -21,13 +22,16 @@ public class WorldContactListener implements ContactListener {
                 ((InteractiveTileObject) object.getUserData()).touchToMarsik();
                 contact.setEnabled(false);
             }
+
+            if(object.getUserData() != null && Bullet.class.isAssignableFrom(object.getUserData().getClass())) {
+                ((Bullet) object.getUserData()).touchToMarsik();
+                contact.setEnabled(false);
+            }
         }
 
         switch (cDef) {
             case MarsikGame.DRON_BIT | MarsikGame.MARSIK_BIT:
-                Gdx.app.log("marsik","died");
-                break;
-            case MarsikGame.BULLET_BIT | MarsikGame.MARSIK_BIT:
+                Hud.healthChange(-25);
                 Gdx.app.log("marsik","died");
                 break;
         }

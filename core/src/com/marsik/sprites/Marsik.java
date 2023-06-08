@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.marsik.scenes.Hud;
+import com.marsik.sprites.interactive.Bonus;
 import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
@@ -11,6 +12,8 @@ public class Marsik extends Sprite {
     public enum State {JUMPING, FALLING, STANDING, RUNNING};
     public State currentState;
     public State previousState;
+
+    public enum BonusStatus {NONE, HEALTH, RESISTANCE, RELOAD};
 
     public World world;
     public Body b2body;
@@ -86,10 +89,6 @@ public class Marsik extends Sprite {
         fdef.shape = shape;
 
         b2body.createFixture(fdef).setUserData("marsik");
-    }
-
-    public void getDamage(int damage) {
-        Hud.healthChange(-damage);
     }
 
 }
