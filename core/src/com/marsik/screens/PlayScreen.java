@@ -50,9 +50,8 @@ public class PlayScreen implements Screen {
 
     public Marsik.BonusStatus currentBonus;
     public Marsik.BonusStatus previousBonus;
-    private float bonusSec;
+    public int bonusTime;
     private float bonusTimer;
-    private boolean reloadBonus;
 
     private float reloadTimer;
     private float reloadTime;
@@ -82,11 +81,10 @@ public class PlayScreen implements Screen {
 
         currentBonus = Marsik.BonusStatus.NONE;
         previousBonus = Marsik.BonusStatus.NONE;
+        bonusTime = 0;
         bonusTimer = 0;
-        bonusSec = 0;
-        reloadBonus = false;
 
-        reloadTime = 5;
+        reloadTime = 3;
         reloadTimer = reloadTime;
 
         world.setContactListener(new WorldContactListener());
@@ -102,7 +100,7 @@ public class PlayScreen implements Screen {
     }
 
     private void handleInput(float dt) {
-        if(reloadBonus) reloadTimer+=3*dt;
+        if(currentBonus== Marsik.BonusStatus.RELOAD) reloadTimer+=3*dt;
         else reloadTimer+=dt;
 
         if((Gdx.input.isKeyJustPressed((Input.Keys.UP)) || Gdx.input.isKeyJustPressed((Input.Keys.W))) && player.currentState!= Marsik.State.FALLING && player.currentState!= Marsik.State.JUMPING)
@@ -173,29 +171,12 @@ public class PlayScreen implements Screen {
     }
 
     private void bonusUpdate(float dt) {
-        if(currentBonus!= Marsik.BonusStatus.NONE && currentBonus!=previousBonus) {
-            bonusTimer  = 0;
-            bonusSec = 1;
-        }
+        if(currentBonus!=previousBonus)
+            bonusTimer = 0;
 
-        if(bonusSec>=1) {
-            if (currentBonus == Marsik.BonusStatus.HEALTH) {
-                Gdx.app.log("bonus", "health");
-                Hud.healthChange(10);
-            }
-            if (currentBonus == Marsik.BonusStatus.RELOAD) {
-                Gdx.app.log("bonus", "reload");
-            }
-            if (currentBonus == Marsik.BonusStatus.RESISTANCE) {
-                Gdx.app.log("bonus", "resistance");
-            }
-            bonusSec=0;
-        }
-
-        bonusTimer += dt;
-        bonusSec += dt;
         previousBonus = currentBonus;
-        if(bonusTimer>=5) currentBonus = Marsik.BonusStatus.NONE;
+        if(currentBonus != Marsik.BonusStatus.NONE) bonusTimer += dt;
+        if(bonusTimer>=bonusTime) currentBonus = Marsik.BonusStatus.NONE;
     }
 
     @Override
@@ -268,4 +249,5 @@ public class PlayScreen implements Screen {
         b2dr.dispose();
         hud.dispose();
     }
+
 }

@@ -26,24 +26,21 @@ public class Bonus extends InteractiveTileObject {
 
         Random ran = new Random();
         int i = ran.nextInt(0,3);
-        if(i==0) healthBonus();
-        if(i==1) reloadBonus();
-        if(i==2) resistance();
-    }
-
-    private void resistance() {
-        Hud.addBonus("RESISTANCE BONUS", 5);
-        screen.currentBonus = Marsik.BonusStatus.RESISTANCE;
-    }
-
-    private void reloadBonus() {
-        Hud.addBonus("RELOAD BONUS", 5);
-        screen.currentBonus = Marsik.BonusStatus.RELOAD;
-    }
-
-    private void healthBonus() {
-        Hud.addBonus("HEALTH BONUS", 5);
-        screen.currentBonus = Marsik.BonusStatus.HEALTH;
+        if(i==0) {
+            Hud.addBonus("HEALTH BONUS", 5);
+            screen.currentBonus = Marsik.BonusStatus.HEALTH;
+            screen.bonusTime = 5;
+        }
+        if(i==1) {
+            Hud.addBonus("RELOAD BONUS", 20);
+            screen.currentBonus = Marsik.BonusStatus.RELOAD;
+            screen.bonusTime = 20;
+        }
+        if(i==2) {
+            Hud.addBonus("RESISTANCE BONUS", 10);
+            screen.currentBonus = Marsik.BonusStatus.RESISTANCE;
+            screen.bonusTime = 10;
+        }
     }
 
 }
