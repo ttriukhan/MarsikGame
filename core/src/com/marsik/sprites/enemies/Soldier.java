@@ -6,24 +6,47 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.marsik.sprites.items.Bullet;
+import com.marsik.sprites.items.SoldierBullet;
 import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public class Soldier extends Enemy {
 
     private float timer;
+    private TextureRegion right;
+    private TextureRegion left;
+    private TextureRegion rightFrozen;
+    private TextureRegion leftFrozen;
+    public boolean shooting;
+    private boolean frozen;
 
     public Soldier(PlayScreen screen, float x, float y, float delta, float speed) {
         super(screen, x, y, delta, speed);
-        Texture soldierTexture = new Texture(Gdx.files.internal("soldier.png"));
-        TextureRegion soldierRegion = new TextureRegion(soldierTexture);
+        right = new TextureRegion(new Texture(Gdx.files.internal("soldierRight.png")));
+        left = new TextureRegion(new Texture(Gdx.files.internal("soldierLeft.png")));
+        rightFrozen = new TextureRegion(new Texture(Gdx.files.internal("soldierRightFrozen.png")));
+        leftFrozen = new TextureRegion(new Texture(Gdx.files.internal("soldierLeftFrozen.png")));
+        shooting = false;
+        frozen = false;
+        setRegion(right);
         setBounds(0, 0, 16 / MarsikGame.PPM, 24 / MarsikGame.PPM);
-        setRegion(soldierRegion);
     }
 
     public void update(float dt) {
         super.update(dt);
         timer+=dt;
+        if(frozen) {
+            b2body.setActive(false);
+            if(timer>=3) {
+                frozen = false;
+                b2body.setActive(true);
+                if(movingRight) setRegion(right);
+                else setRegion(left);
+            }
+        }
+        if(!shooting) b2body.setLinearVelocity(velocity);
+        setPosition(b2body.getPosition().x - getWidth() /2,b2body.getPosition().y - getHeight()/2);
     }
 
     @Override
@@ -36,7 +59,6 @@ public class Soldier extends Enemy {
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        // Define the vertices of the polygon shape
         float[] vertices = {
                 -8 / MarsikGame.PPM, -12 / MarsikGame.PPM, // bottom-left
                 8 / MarsikGame.PPM, -12 / MarsikGame.PPM, // bottom-right
@@ -47,17 +69,35 @@ public class Soldier extends Enemy {
         shape.set(vertices);
 
         fdef.filter.categoryBits = MarsikGame.SOLDIER_BIT;
-        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT;
+        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.FREEZE_BULLET_BIT;
         fdef.shape = shape;
 
-        b2body.createFixture(fdef).setUserData("soldier");
+        b2body.createFixture(fdef).setUserData(this);
     }
 
-    public void shoot(float x, float y, boolean right) {
-        if(timer>=1) {
-            Gdx.app.log("soldier", "shooting");
-            timer=0;
-        }
-        b2body.setActive(false);
+    @Override
+    protected void changeMove() {
+        reverseVelocity(true, false);
+        movingRight = !movingRight;
+        if(movingRight) setRegion(right);
+        else setRegion(left);
     }
+
+    public void shoot() {
+        if(!frozen) {
+            shooting = true;
+            if (timer >= 1) {
+                screen.getBullets().add(new SoldierBullet(screen, b2body.getPosition().x, b2body.getPosition().y, movingRight));
+                timer = 0;
+            }
+        }
+    }
+
+    public void freeze() {
+        frozen = true;
+        timer=0;
+        if(movingRight) setRegion(rightFrozen);
+        else setRegion(leftFrozen);
+    }
+
 }

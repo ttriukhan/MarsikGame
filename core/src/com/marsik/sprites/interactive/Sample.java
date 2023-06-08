@@ -11,7 +11,7 @@ public class Sample extends InteractiveTileObject {
     public Sample(PlayScreen screen, Rectangle bounds) {
         super(screen, bounds);
         fixture.setUserData(this);
-        setCategoryFilter(MarsikGame.SAMPLE_BIT);
+        setCategoryFilter(MarsikGame.OBJECT_BIT);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.marsik.scenes.Hud;
 import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
@@ -21,6 +22,8 @@ public class Dron extends Enemy {
 
     public void update(float dt) {
         super.update(dt);
+        b2body.setLinearVelocity(velocity);
+        setPosition(b2body.getPosition().x - getWidth() /2,b2body.getPosition().y - getHeight()/2);
     }
 
     @Override
@@ -28,6 +31,7 @@ public class Dron extends Enemy {
         BodyDef bdef = new BodyDef();
         bdef.position.set(x, y);
         bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.gravityScale=0;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
@@ -44,9 +48,21 @@ public class Dron extends Enemy {
         shape.set(vertices);
 
         fdef.filter.categoryBits = MarsikGame.DRON_BIT;
-        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.MARSIK_BIT;
+        fdef.filter.maskBits = MarsikGame.GROUND_BIT | MarsikGame.PLATFORM_BIT | MarsikGame.MARSIK_BIT | MarsikGame.FREEZE_BULLET_BIT;
         fdef.shape = shape;
 
-        b2body.createFixture(fdef).setUserData("dron");
+        b2body.createFixture(fdef).setUserData(this);
     }
+
+    @Override
+    protected void changeMove() {
+        reverseVelocity(true, false);
+        movingRight = !movingRight;
+    }
+
+    public void hitMarsik() {
+        Hud.healthChange(-25);
+        Gdx.app.log("dron","hit");
+    }
+
 }
