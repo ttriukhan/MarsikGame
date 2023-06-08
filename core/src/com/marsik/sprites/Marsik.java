@@ -65,7 +65,7 @@ public class Marsik extends Sprite {
             health=100;
         if(health<=0) {
             Gdx.app.log("marsik", "dead");
-            dead = true;
+            //dead = true;
         }
     }
 

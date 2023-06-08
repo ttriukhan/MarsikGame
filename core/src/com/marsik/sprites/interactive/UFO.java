@@ -1,6 +1,7 @@
 package com.marsik.sprites.interactive;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
@@ -14,8 +15,10 @@ public class UFO extends InteractiveTileObject {
 
     @Override
     public void touchToMarsik() {
-
         Gdx.app.log("ufo","the end");
+
+        Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/ufo.wav"));
+        touchSound.play(0.5f);
     }
 
 }

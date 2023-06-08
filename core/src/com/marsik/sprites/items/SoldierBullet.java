@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.marsik.scenes.Hud;
+import com.badlogic.gdx.math.Vector2;
 import com.marsik.screens.PlayScreen;
 import com.marsik.sprites.Marsik;
 import tools.MarsikGame;
@@ -51,7 +51,11 @@ public class SoldierBullet extends Bullet {
             Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/hit.wav"));
             touchSound.play(0.5f);
 
+            Sound auch = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/auch.mp3"));
+            auch.play(0.5f);
+
             screen.getPlayer().changeHealth(-10);
+            screen.getPlayer().b2body.applyLinearImpulse(new Vector2(velocity.x/2, 0.5f), screen.getPlayer().b2body.getWorldCenter(), true);
         }
         destroy();
     }
