@@ -56,4 +56,6 @@ public abstract class Enemy extends Sprite {
     public boolean isMovingRight() {
         return movingRight;
     }
+
+
 }
