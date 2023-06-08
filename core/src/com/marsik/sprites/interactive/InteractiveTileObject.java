@@ -43,7 +43,7 @@ public abstract class InteractiveTileObject {
     }
 
     public TiledMapTileLayer.Cell[] getCell() {
-        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(1);
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(4);
 
         int x = Math.round(body.getPosition().x * MarsikGame.PPM / 16);
         int y = Math.round(body.getPosition().y * MarsikGame.PPM / 16);
