@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.marsik.scenes.Hud;
 import tools.MarsikGame;
@@ -18,7 +19,7 @@ public class Marsik extends Sprite {
 
     public World world;
     public Body b2body;
-    public boolean runningRight;
+    public boolean movingRight;
     private float stateTimer;
     private Integer health;
 
@@ -29,7 +30,7 @@ public class Marsik extends Sprite {
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer= 0;
-        runningRight = true;
+        movingRight = true;
         health = 100;
 
         defineMarsik();
@@ -40,7 +41,7 @@ public class Marsik extends Sprite {
         setPosition(b2body.getPosition().x - getWidth()/2, b2body.getPosition().y - getHeight()/2);
         previousState = currentState;
         currentState = getState();
-        runningRight = isRunningRight();
+        movingRight = isMovingRight();
         checkStateTime(dt);
     }
 
@@ -49,8 +50,8 @@ public class Marsik extends Sprite {
         else stateTimer =0;
     }
 
-    private boolean isRunningRight() {
-        if(b2body.getLinearVelocity().x ==0 && runningRight)
+    private boolean isMovingRight() {
+        if(b2body.getLinearVelocity().x ==0 && movingRight)
             return true;
         return b2body.getLinearVelocity().x > 0;
     }
@@ -60,12 +61,9 @@ public class Marsik extends Sprite {
         health+=value;
         if(health>100)
             health=100;
-        if(health<=0)
-            Gdx.app.log("marsik","dead");
-    }
-
-    public Integer getHealth() {
-        return health;
+        if(health<=0) {
+            Gdx.app.log("marsik", "dead");
+        }
     }
 
     private State getState() {

@@ -25,6 +25,14 @@ public class WorldContactListener implements ContactListener {
                 contact.setEnabled(false);
                 break;
 
+            case MarsikGame.UFO_BIT | MarsikGame.MARSIK_BIT:
+            case MarsikGame.PLATFORM_BIT | MarsikGame.MARSIK_BIT:
+                if(fixA.getFilterData().categoryBits == MarsikGame.MARSIK_BIT)
+                    ((InteractiveTileObject) fixB.getUserData()).touchToMarsik();
+                else
+                    ((InteractiveTileObject) fixA.getUserData()).touchToMarsik();
+                break;
+
             case MarsikGame.SOLDIER_BULLET_BIT | MarsikGame.MARSIK_BIT:
                 if(fixA.getFilterData().categoryBits == MarsikGame.SOLDIER_BULLET_BIT)
                     ((SoldierBullet) fixA.getUserData()).hitMarsik();

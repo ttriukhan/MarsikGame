@@ -17,7 +17,6 @@ public class Sample extends InteractiveTileObject {
 
     @Override
     public void touchToMarsik() {
-        Gdx.app.log("sample","well done");
         setCategoryFilter(MarsikGame.GOT_BIT);
 
         Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/sample.wav"));
@@ -26,7 +25,5 @@ public class Sample extends InteractiveTileObject {
         getCell().setTile(null);
         Hud.addScore(1000);
     }
-
-
 
 }
