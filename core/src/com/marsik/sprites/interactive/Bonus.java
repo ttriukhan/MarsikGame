@@ -21,8 +21,7 @@ public class Bonus extends InteractiveTileObject {
     @Override
     public void touchToMarsik() {
         setCategoryFilter(MarsikGame.GOT_BIT);
-        for (TiledMapTileLayer.Cell cell : getCell())
-            cell.setTile(null);
+        getCell().setTile(null);
 
         Random ran = new Random();
         int i = ran.nextInt(0,3);

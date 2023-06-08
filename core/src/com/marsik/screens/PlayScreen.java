@@ -66,7 +66,7 @@ public class PlayScreen implements Screen {
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("map1.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1/MarsikGame.PPM);
-        gameCam.position.set(gamePort.getScreenWidth()/2, gamePort.getScreenHeight()/2, 0);
+        gameCam.position.set(gamePort.getScreenWidth()/2f, gamePort.getScreenHeight()/2f, 0);
 
         mapWidth = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class) /MarsikGame.PPM;
         mapHeight = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class) /MarsikGame.PPM;

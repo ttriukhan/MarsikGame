@@ -44,19 +44,10 @@ public abstract class InteractiveTileObject {
         fixture.setFilterData(filter);
     }
 
-    public TiledMapTileLayer.Cell[] getCell() {
+    public TiledMapTileLayer.Cell getCell() {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(4);
-
-        int x = Math.round(body.getPosition().x * MarsikGame.PPM / 16);
-        int y = Math.round(body.getPosition().y * MarsikGame.PPM / 16);
-
-        TiledMapTileLayer.Cell[] res = new TiledMapTileLayer.Cell[]{
-                layer.getCell(x, y),
-                layer.getCell(x-1, y),
-                layer.getCell(x, y-1),
-                layer.getCell(x-1, y-1)
-        };
-
-        return res;
+        int x = (int) (body.getPosition().x * MarsikGame.PPM / 16);
+        int y = (int) (body.getPosition().y * MarsikGame.PPM / 16);
+        return layer.getCell(x, y);
     }
 }

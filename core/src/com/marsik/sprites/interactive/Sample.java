@@ -18,8 +18,7 @@ public class Sample extends InteractiveTileObject {
     public void touchToMarsik() {
         Gdx.app.log("sample","well done");
         setCategoryFilter(MarsikGame.GOT_BIT);
-        for (TiledMapTileLayer.Cell cell : getCell())
-            cell.setTile(null);
+        getCell().setTile(null);
         Hud.addScore(1000);
     }
 
