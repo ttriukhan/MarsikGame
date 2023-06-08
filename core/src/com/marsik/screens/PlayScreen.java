@@ -52,6 +52,7 @@ public class PlayScreen implements Screen {
     public Marsik.BonusStatus previousBonus;
     public int bonusTime;
     private float bonusTimer;
+    private float healthBonusTimer;
 
     private float reloadTimer;
     private float reloadTime;
@@ -83,8 +84,9 @@ public class PlayScreen implements Screen {
         previousBonus = Marsik.BonusStatus.NONE;
         bonusTime = 0;
         bonusTimer = 0;
+        healthBonusTimer = 0;
 
-        reloadTime = 3;
+        reloadTime = 2;
         reloadTimer = reloadTime;
 
         world.setContactListener(new WorldContactListener());
@@ -92,6 +94,10 @@ public class PlayScreen implements Screen {
 
     public ArrayList<Bullet> getBullets() {
         return bullets;
+    }
+
+    public Marsik getPlayer() {
+        return player;
     }
 
     @Override
@@ -106,9 +112,9 @@ public class PlayScreen implements Screen {
         if((Gdx.input.isKeyJustPressed((Input.Keys.UP)) || Gdx.input.isKeyJustPressed((Input.Keys.W))) && player.currentState!= Marsik.State.FALLING && player.currentState!= Marsik.State.JUMPING)
             player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
         if((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed((Input.Keys.D))) && player.b2body.getLinearVelocity().x <= 2)
-            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(0.08f, 0), player.b2body.getWorldCenter(), true);
         if((Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed((Input.Keys.A))) && player.b2body.getLinearVelocity().x >= -2)
-            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(-0.08f, 0), player.b2body.getWorldCenter(), true);
         if((Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) && reloadTimer>=reloadTime) {
             freezeBullets.add(new FreezeBullet(this, player.b2body.getPosition().x, player.b2body.getPosition().y, player.runningRight));
             reloadTimer=0;
@@ -171,8 +177,33 @@ public class PlayScreen implements Screen {
     }
 
     private void bonusUpdate(float dt) {
-        if(currentBonus!=previousBonus)
+        if(currentBonus!=previousBonus) {
             bonusTimer = 0;
+            if(currentBonus == Marsik.BonusStatus.SAME) {
+                currentBonus = previousBonus;
+            }
+            if(currentBonus== Marsik.BonusStatus.HEALTH) {
+                bonusTime = 5;
+                healthBonusTimer = 0;
+                Hud.addBonus("HEALTH BONUS", 5);
+            }
+            if(currentBonus== Marsik.BonusStatus.RELOAD) {
+                bonusTime = 20;
+                Hud.addBonus("RELOAD BONUS", 20);
+            }
+            if(currentBonus== Marsik.BonusStatus.RESISTANCE) {
+                bonusTime = 10;
+                Hud.addBonus("RESISTANCE BONUS", 10);
+            }
+        }
+
+        if(currentBonus== Marsik.BonusStatus.HEALTH) {
+            healthBonusTimer+=dt;
+            if(healthBonusTimer>=1) {
+                healthBonusTimer=0;
+                player.changeHealth(10);
+            }
+        }
 
         previousBonus = currentBonus;
         if(currentBonus != Marsik.BonusStatus.NONE) bonusTimer += dt;
@@ -188,7 +219,7 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
-        b2dr.render(world, gameCam.combined);
+        //b2dr.render(world, gameCam.combined);
 
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();

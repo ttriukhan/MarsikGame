@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.marsik.scenes.Hud;
+import com.marsik.sprites.Marsik;
 import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
@@ -61,8 +62,8 @@ public class Dron extends Enemy {
     }
 
     public void hitMarsik() {
-        Hud.healthChange(-25);
-        Gdx.app.log("dron","hit");
+        if(screen.currentBonus != Marsik.BonusStatus.RESISTANCE)
+            screen.getPlayer().changeHealth(-25);
     }
 
 }

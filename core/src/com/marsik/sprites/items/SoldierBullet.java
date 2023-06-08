@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.marsik.scenes.Hud;
 import com.marsik.screens.PlayScreen;
+import com.marsik.sprites.Marsik;
 import tools.MarsikGame;
 
 public class SoldierBullet extends Bullet {
@@ -44,8 +45,8 @@ public class SoldierBullet extends Bullet {
     }
 
     public void hitMarsik() {
-        Hud.healthChange(-10);
-        Gdx.app.log("bullet","hit");
+        if(screen.currentBonus != Marsik.BonusStatus.RESISTANCE)
+            screen.getPlayer().changeHealth(-10);
         destroy();
     }
 

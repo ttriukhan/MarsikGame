@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import com.marsik.scenes.Hud;
 import tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
@@ -13,12 +14,13 @@ public class Marsik extends Sprite {
     public State currentState;
     public State previousState;
 
-    public enum BonusStatus {NONE, HEALTH, RESISTANCE, RELOAD};
+    public enum BonusStatus {NONE, HEALTH, RESISTANCE, RELOAD, SAME};
 
     public World world;
     public Body b2body;
     public boolean runningRight;
     private float stateTimer;
+    private Integer health;
 
     public Marsik(PlayScreen screen) {
         super(new TextureRegion(new Texture(Gdx.files.internal("alien.png"))));
@@ -28,6 +30,7 @@ public class Marsik extends Sprite {
         previousState = State.STANDING;
         stateTimer= 0;
         runningRight = true;
+        health = 100;
 
         defineMarsik();
         setBounds(0, 0, 16 / MarsikGame.PPM, 32 / MarsikGame.PPM);
@@ -50,6 +53,19 @@ public class Marsik extends Sprite {
         if(b2body.getLinearVelocity().x ==0 && runningRight)
             return true;
         return b2body.getLinearVelocity().x > 0;
+    }
+
+    public void changeHealth(int value) {
+        Hud.healthChange(value);
+        health+=value;
+        if(health>100)
+            health=100;
+        if(health<=0)
+            Gdx.app.log("marsik","dead");
+    }
+
+    public Integer getHealth() {
+        return health;
     }
 
     private State getState() {

@@ -38,7 +38,7 @@ public class Soldier extends Enemy {
         timer+=dt;
         if(frozen) {
             b2body.setActive(false);
-            if(timer>=3) {
+            if(timer>=5) {
                 frozen = false;
                 b2body.setActive(true);
                 if(movingRight) setRegion(right);
