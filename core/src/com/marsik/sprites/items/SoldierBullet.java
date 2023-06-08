@@ -1,6 +1,7 @@
 package com.marsik.sprites.items;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -45,8 +46,13 @@ public class SoldierBullet extends Bullet {
     }
 
     public void hitMarsik() {
-        if(screen.currentBonus != Marsik.BonusStatus.RESISTANCE)
+        if(screen.currentBonus != Marsik.BonusStatus.RESISTANCE) {
+
+            Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/hit.wav"));
+            touchSound.play(0.5f);
+
             screen.getPlayer().changeHealth(-10);
+        }
         destroy();
     }
 

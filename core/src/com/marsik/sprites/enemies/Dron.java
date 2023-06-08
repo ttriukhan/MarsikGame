@@ -1,6 +1,7 @@
 package com.marsik.sprites.enemies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -62,8 +63,13 @@ public class Dron extends Enemy {
     }
 
     public void hitMarsik() {
-        if(screen.currentBonus != Marsik.BonusStatus.RESISTANCE)
+        if(screen.currentBonus != Marsik.BonusStatus.RESISTANCE) {
+
+            Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/hit.wav"));
+            touchSound.play();
+
             screen.getPlayer().changeHealth(-25);
+        }
     }
 
 }
