@@ -14,13 +14,17 @@ public abstract class Bullet extends Sprite {
     protected Body body;
     protected boolean toDestroy;
     protected boolean destroyed;
+    protected float timer;
+    protected double limit;
 
-    public Bullet(PlayScreen screen, float x, float y, boolean right, float speed) {
+    public Bullet(PlayScreen screen, float x, float y, boolean right, float speed, double limit) {
         super();
         this.screen = screen;
         this.world = screen.getWorld();
+        this.limit = limit;
         toDestroy = false;
         destroyed = false;
+        timer = 0;
         setPosition(x,y);
         defineItem();
         if(right) velocity = new Vector2(speed,0);
@@ -28,6 +32,8 @@ public abstract class Bullet extends Sprite {
     }
 
     public void update(float dt) {
+        timer +=dt;
+        if(timer>=limit) destroy();
         if(toDestroy && !destroyed) {
             world.destroyBody(body);
             destroyed = true;

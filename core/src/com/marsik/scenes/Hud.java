@@ -27,6 +27,7 @@ public class Hud implements Disposable {
     private static Label healthLabel;
     private Label healthL;
     private Label marsikLabel;
+    private boolean fixed;
 
     public Hud(SpriteBatch sb) {
         timer = 0;
@@ -60,14 +61,16 @@ public class Hud implements Disposable {
     }
 
     public void update(float dt) {
-        timeCount +=dt;
-        if(timeCount>=1 && timer>0) {
-            timer--;
-            countdownLabel.setText(String.format("%02d", timer));
-            timeCount = 0;
+        if(!fixed) {
+            timeCount += dt;
+            if (timeCount >= 1 && timer > 0) {
+                timer--;
+                countdownLabel.setText(String.format("%02d", timer));
+                timeCount = 0;
+            }
+            if (timer == 0)
+                bonusLabel.setText("NO BONUS");
         }
-        if (timer==0)
-            bonusLabel.setText("NO BONUS");
     }
 
     public static void addBonus(String type, int time) {
@@ -89,6 +92,18 @@ public class Hud implements Disposable {
         if (health<0)
             health = 0;
         healthLabel.setText(String.format("%03d", health));
+    }
+
+    public void win() {
+        bonusLabel.setText("WIN");
+        countdownLabel.setText(String.format("%02d", 0));
+        fixed = true;
+    }
+
+    public void loose() {
+        bonusLabel.setText("DEAD");
+        countdownLabel.setText(String.format("%02d", 0));
+        fixed = true;
     }
 
     @Override

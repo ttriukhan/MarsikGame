@@ -61,6 +61,11 @@ public class PlayScreen implements Screen {
 
     private Music backgroundMusic;
 
+    private boolean paused;
+    private boolean gameOver;
+    private float gameOverTimer;
+    private boolean win;
+
 
     public PlayScreen(MarsikGame game) {
 
@@ -98,6 +103,11 @@ public class PlayScreen implements Screen {
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.2f);
 
+        paused = false;
+        gameOver = false;
+        gameOverTimer = 0;
+        win = false;
+
         world.setContactListener(new WorldContactListener());
     }
 
@@ -115,21 +125,21 @@ public class PlayScreen implements Screen {
     }
 
     private void handleInput(float dt) {
-        if(currentBonus== Marsik.BonusStatus.RELOAD) reloadTimer+=3*dt;
-        else reloadTimer+=dt;
+        if (currentBonus == Marsik.BonusStatus.RELOAD) reloadTimer += 4 * dt;
+        else reloadTimer += dt;
 
-        if((Gdx.input.isKeyJustPressed((Input.Keys.UP)) || Gdx.input.isKeyJustPressed((Input.Keys.W))) && player.currentState!= Marsik.State.FALLING && player.currentState!= Marsik.State.JUMPING) {
+        if ((Gdx.input.isKeyJustPressed((Input.Keys.UP)) || Gdx.input.isKeyJustPressed((Input.Keys.W))) && player.currentState != Marsik.State.FALLING && player.currentState != Marsik.State.JUMPING) {
 
             Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/jump.wav"));
             touchSound.play();
 
             player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
         }
-        if((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed((Input.Keys.D))) && player.b2body.getLinearVelocity().x <= 1.5)
+        if ((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed((Input.Keys.D))) && player.b2body.getLinearVelocity().x <= 1.5)
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
-        if((Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed((Input.Keys.A))) && player.b2body.getLinearVelocity().x >= -1.5)
+        if ((Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed((Input.Keys.A))) && player.b2body.getLinearVelocity().x >= -1.5)
             player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
-        if((Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) && reloadTimer>=reloadTime) {
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) && reloadTimer >= reloadTime) {
 
             Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/mShot.wav"));
             touchSound.play();
@@ -138,8 +148,8 @@ public class PlayScreen implements Screen {
             reloadTimer = 0;
         }
 
-        float clampedX = MathUtils.clamp(player.b2body.getPosition().x, player.getWidth()/2, mapWidth-player.getWidth()/2);
-        float clampedY = MathUtils.clamp(player.b2body.getPosition().y, 0, mapHeight+player.getHeight());
+        float clampedX = MathUtils.clamp(player.b2body.getPosition().x, player.getWidth() / 2, mapWidth - player.getWidth() / 2);
+        float clampedY = MathUtils.clamp(player.b2body.getPosition().y, 0, mapHeight + player.getHeight());
 
         player.b2body.setTransform(clampedX, clampedY, player.b2body.getAngle());
     }
@@ -206,12 +216,12 @@ public class PlayScreen implements Screen {
                 Hud.addBonus("HEALTH BONUS", 5);
             }
             if(currentBonus== Marsik.BonusStatus.RELOAD) {
-                bonusTime = 20;
-                Hud.addBonus("RELOAD BONUS", 20);
+                bonusTime = 10;
+                Hud.addBonus("RELOAD BONUS", 10);
             }
             if(currentBonus== Marsik.BonusStatus.RESISTANCE) {
-                bonusTime = 10;
-                Hud.addBonus("RESISTANCE BONUS", 10);
+                bonusTime = 5;
+                Hud.addBonus("RESISTANCE BONUS", 5);
             }
         }
 
@@ -228,30 +238,47 @@ public class PlayScreen implements Screen {
         if(bonusTimer>=bonusTime) currentBonus = Marsik.BonusStatus.NONE;
     }
 
+    public void endGame(boolean win) {
+        gameOver = true;
+        backgroundMusic.dispose();
+        this.win = win;
+        if(win) {
+            Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/ufo.wav"));
+            touchSound.play(0.5f);
+            hud.win();
+        } else {
+            Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/loose.mp3"));
+            touchSound.play(0.5f);
+            hud.loose();
+        }
+    }
+
     @Override
     public void render(float delta) {
-        update(delta);
+        if(!gameOver && !paused)
+            update(delta);
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.R))
+            pause();
 
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
 
-        //b2dr.render(world, gameCam.combined);
-
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
 
-        for(Dron dron : creator.getDrons())
+        for (Dron dron : creator.getDrons())
             dron.draw(game.batch);
 
-        for(Soldier sold : creator.getSoldiers())
+        for (Soldier sold : creator.getSoldiers())
             sold.draw(game.batch);
 
-        for(Bullet bullet : bullets)
+        for (Bullet bullet : bullets)
             bullet.draw(game.batch);
 
-        for(Bullet bullet : freezeBullets)
+        for (Bullet bullet : freezeBullets)
             bullet.draw(game.batch);
 
         player.draw(game.batch);
@@ -259,6 +286,21 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+
+        if(gameOver){
+            gameOverTimer+=delta;
+            if(gameOverTimer >= (win ? 5 : 3)) {
+                if(win) {
+                    Gdx.app.log("game","win");
+                    game.setScreen(new PlayScreen(game));
+                }
+                else {
+                    Gdx.app.log("game","loose");
+                    game.setScreen(new PlayScreen(game));
+                }
+                dispose();
+            }
+        }
     }
 
     @Override
@@ -277,7 +319,12 @@ public class PlayScreen implements Screen {
 
     @Override
     public void pause() {
-
+        if(!gameOver) {
+            if (backgroundMusic.isPlaying())
+                backgroundMusic.pause();
+            else backgroundMusic.play();
+            paused = !paused;
+        }
     }
 
     @Override

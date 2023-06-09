@@ -15,7 +15,7 @@ import tools.MarsikGame;
 public class SoldierBullet extends Bullet {
 
     public SoldierBullet(PlayScreen screen, float x, float y, boolean right) {
-        super(screen, x, y, right, 1);
+        super(screen, x, y, right, 1,5);
         setRegion(new TextureRegion(new Texture(Gdx.files.internal("soldierBullet.png"))));
         setBounds(0, 0, 6 / MarsikGame.PPM, 3 / MarsikGame.PPM);
     }

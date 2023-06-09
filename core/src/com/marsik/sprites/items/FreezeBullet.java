@@ -11,20 +11,10 @@ import tools.MarsikGame;
 
 public class FreezeBullet extends Bullet {
 
-    private float timer;
-
     public FreezeBullet(PlayScreen screen, float x, float y, boolean right) {
-        super(screen, x, y, right, 4);
+        super(screen, x, y, right, 4,0.5);
         setRegion(new TextureRegion(new Texture(Gdx.files.internal("freezeBullet.png"))));
         setBounds(0, 0, 32 / MarsikGame.PPM, 32 / MarsikGame.PPM);
-        timer = 0;
-    }
-
-    @Override
-    public void update(float dt) {
-        super.update(dt);
-        timer +=dt;
-        if(timer>=0.5) destroy();
     }
 
     public void defineItem() {
