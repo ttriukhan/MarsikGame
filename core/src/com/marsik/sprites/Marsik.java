@@ -15,6 +15,9 @@ public class Marsik extends Sprite {
     public State currentState;
     public State previousState;
 
+    private TextureRegion right;
+    private TextureRegion left;
+
     public enum BonusStatus {NONE, HEALTH, RESISTANCE, RELOAD, SAME};
 
     public PlayScreen screen;
@@ -25,7 +28,9 @@ public class Marsik extends Sprite {
     private Integer health;
 
     public Marsik(PlayScreen screen) {
-        super(new TextureRegion(new Texture(Gdx.files.internal("alien.png"))));
+        super();
+        right = new TextureRegion(new Texture(Gdx.files.internal("marsikRight.png")));
+        left = new TextureRegion(new Texture(Gdx.files.internal("marsikLeft.png")));
         this.screen = screen;
         this.world = screen.getWorld();
 
@@ -36,7 +41,7 @@ public class Marsik extends Sprite {
         health = 100;
 
         defineMarsik();
-        setBounds(0, 0, 16 / MarsikGame.PPM, 32 / MarsikGame.PPM);
+        setBounds(0, 0, 25 / MarsikGame.PPM, 32 / MarsikGame.PPM);
     }
 
     public void update(float dt) {
@@ -44,6 +49,8 @@ public class Marsik extends Sprite {
         previousState = currentState;
         currentState = getState();
         movingRight = isMovingRight();
+        if(movingRight) setRegion(right);
+        else setRegion(left);
         checkStateTime(dt);
     }
 

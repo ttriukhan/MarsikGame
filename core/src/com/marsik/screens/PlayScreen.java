@@ -245,10 +245,12 @@ public class PlayScreen implements Screen {
         if(win) {
             Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/ufo.wav"));
             touchSound.play(0.5f);
+            game.setScreen(new WinScreen(game));
             hud.win();
         } else {
             Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/loose.mp3"));
             touchSound.play(0.5f);
+            game.setScreen(new GameOverScreen(game));
             hud.loose();
         }
     }

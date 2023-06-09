@@ -2,6 +2,9 @@ package tools;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.marsik.screens.GameOverScreen;
+import com.marsik.screens.LevelScreen;
+import com.marsik.screens.MainScreen;
 import com.marsik.screens.PlayScreen;
 
 public class MarsikGame extends Game {
@@ -25,7 +28,7 @@ public class MarsikGame extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		setScreen(new PlayScreen(this));
+		setScreen(new LevelScreen(this, 0));
 	}
 
 	@Override

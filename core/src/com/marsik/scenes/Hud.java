@@ -43,7 +43,7 @@ public class Hud implements Disposable {
         table.setFillParent(true);
 
         countdownLabel = new Label(String.format("%02d", timer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel = new Label(String.format("%04d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreLabel = new Label(String.format("%01d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         bonusLabel = new Label("NO BONUS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         healthLabel = new Label(String.format("%03d", health), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         healthL = new Label("HEALTH", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
@@ -82,7 +82,7 @@ public class Hud implements Disposable {
 
     public  static void addScore(int value) {
         score += value;
-        scoreLabel.setText(String.format("%04d", score));
+        scoreLabel.setText(String.format("%01d", score));
     }
 
     public static void healthChange(int value) {

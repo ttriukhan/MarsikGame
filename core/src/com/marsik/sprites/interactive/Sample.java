@@ -23,7 +23,7 @@ public class Sample extends InteractiveTileObject {
         touchSound.play();
 
         getCell().setTile(null);
-        Hud.addScore(1000);
+        Hud.addScore(1);
     }
 
 }
