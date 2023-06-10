@@ -294,11 +294,9 @@ public class PlayScreen implements Screen {
             if(gameOverTimer >= (win ? 5 : 3)) {
                 if(win) {
                     Gdx.app.log("game","win");
-                    game.setScreen(new PlayScreen(game));
                 }
                 else {
                     Gdx.app.log("game","loose");
-                    game.setScreen(new PlayScreen(game));
                 }
                 dispose();
             }

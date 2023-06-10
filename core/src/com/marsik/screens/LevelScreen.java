@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -34,26 +35,26 @@ public class LevelScreen implements Screen {
         this.game = game;
         this.level = level;
         batch = new SpriteBatch();
-        if(level==0) backgroundImage = new Texture("l2.png");
-        if(level==1) backgroundImage = new Texture("cl2.png");
-        if(level==2) backgroundImage = new Texture("clouds.png");
+        if(level==0) backgroundImage = new Texture("l10.png");
+        if(level==1) backgroundImage = new Texture("l20.png");
+        if(level==2) backgroundImage = new Texture("l30.png");
 
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-        Texture playTexture = new Texture(Gdx.files.internal("sample1.png"));
+        Texture playTexture = new Texture(Gdx.files.internal("buttonL1.png"));
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(playTexture));
         buttonPlay = new ImageButton(drawable);
 
-        Texture instrTexture = new Texture(Gdx.files.internal("sample2.png"));
+        Texture instrTexture = new Texture(Gdx.files.internal("buttonL2.png"));
         Drawable drawable1 = new TextureRegionDrawable(new TextureRegion(instrTexture));
         buttonMenu = new ImageButton(drawable1);
 
-        Texture leftTexture = new Texture(Gdx.files.internal("bonus1.png"));
+        Texture leftTexture = new Texture(Gdx.files.internal("buttonL3.png"));
         Drawable drawable2 = new TextureRegionDrawable(new TextureRegion(leftTexture));
         buttonLeft = new ImageButton(drawable2);
 
-        Texture rightTexture = new Texture(Gdx.files.internal("bonus2.png"));
-        Drawable drawable3 = new TextureRegionDrawable(new TextureRegion(instrTexture));
+        Texture rightTexture = new Texture(Gdx.files.internal("buttonL4.png"));
+        Drawable drawable3 = new TextureRegionDrawable(new TextureRegion(rightTexture));
         buttonRight = new ImageButton(drawable3);
 
         buttonPlay.addListener(new ClickListener() {
@@ -106,10 +107,22 @@ public class LevelScreen implements Screen {
             }
         });
 
-        stage.addActor(buttonPlay);
-        stage.addActor(buttonMenu);
-        stage.addActor(buttonLeft);
-        stage.addActor(buttonRight);
+        Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
+
+        table.center();
+
+        table.add(buttonLeft).pad(0,-200f,0,200f);
+        table.add(buttonPlay).pad(0,100f,0,100f);
+        table.add(buttonRight).pad(0,200f,0,-200f);
+
+        Table table2 = new Table();
+        table2.setFillParent(true);
+        stage.addActor(table2);
+
+        table2.bottom();
+        table2.add(buttonMenu).padBottom(30f);
 
         Gdx.input.setInputProcessor(stage);
 
@@ -129,6 +142,9 @@ public class LevelScreen implements Screen {
         batch.begin();
         batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
+
+        stage.act(delta);
+        stage.draw();
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
@@ -199,6 +215,7 @@ public class LevelScreen implements Screen {
     @Override
     public void dispose() {
 
+        stage.dispose();
         batch.dispose();
         backgroundImage.dispose();
     }

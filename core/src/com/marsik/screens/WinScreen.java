@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -34,16 +35,16 @@ public class WinScreen implements Screen {
     public WinScreen(final MarsikGame game) {
         this.game = game;
         batch = new SpriteBatch();
-        backgroundImage = new Texture("ufo.png");
+        backgroundImage = new Texture("win.png");
 
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-        Texture playTexture = new Texture(Gdx.files.internal("sample1.png"));
-        Drawable drawable = new TextureRegionDrawable(new TextureRegion(playTexture));
+        Texture instrTexture = new Texture(Gdx.files.internal("buttonW1.png"));
+        Drawable drawable = new TextureRegionDrawable(new TextureRegion(instrTexture));
         buttonMenu = new ImageButton(drawable);
 
-        Texture instrTexture = new Texture(Gdx.files.internal("sample2.png"));
-        Drawable drawable1 = new TextureRegionDrawable(new TextureRegion(instrTexture));
+        Texture playTexture = new Texture(Gdx.files.internal("buttonW2.png"));
+        Drawable drawable1 = new TextureRegionDrawable(new TextureRegion(playTexture));
         buttonNext = new ImageButton(drawable1);
 
         buttonMenu.addListener(new ClickListener() {
@@ -64,8 +65,13 @@ public class WinScreen implements Screen {
             }
         });
 
-        stage.addActor(buttonMenu);
-        stage.addActor(buttonNext);
+        Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
+
+        table.bottom();
+        table.add(buttonMenu).pad(0,-150f,40f, 250f);
+        table.add(buttonNext).pad(0,250f,40f, -150f);
 
         Gdx.input.setInputProcessor(stage);
 
@@ -85,6 +91,9 @@ public class WinScreen implements Screen {
         batch.begin();
         batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
+
+        stage.act(delta);
+        stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
             System.out.println("next touch");
@@ -120,6 +129,7 @@ public class WinScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
         batch.dispose();
         backgroundImage.dispose();
     }

@@ -7,9 +7,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import tools.MarsikGame;
 import com.marsik.screens.MenuScreen;
 
@@ -20,6 +23,7 @@ public class MainScreen implements Screen {
     private final MarsikGame game;
     private SpriteBatch batch;
     private Texture backgroundImage;
+
 
     public MainScreen(final MarsikGame game) {
         this.game = game;
@@ -58,7 +62,6 @@ public class MainScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override
