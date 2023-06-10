@@ -56,8 +56,7 @@ public class MenuScreen implements Screen {
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("play touch");
-                game.setScreen(new LevelScreen(game, 0));
+                game.setScreen(new LevelScreen(game, 1));
                 dispose();
             }
         });
@@ -65,7 +64,6 @@ public class MenuScreen implements Screen {
         buttonInstr.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("instr touch");
                 game.setScreen(new InstructionScreen(game));
                 dispose();
             }
@@ -100,12 +98,10 @@ public class MenuScreen implements Screen {
         stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_0)) {
-            System.out.println("play touch");
-            game.setScreen(new LevelScreen(game, 0));
+            game.setScreen(new LevelScreen(game, 1));
             dispose();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
-            System.out.println("instr touch");
             game.setScreen(new InstructionScreen(game));
             dispose();
         }

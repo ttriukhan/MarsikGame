@@ -27,13 +27,15 @@ public class WinScreen implements Screen {
     private final MarsikGame game;
     private SpriteBatch batch;
     private Texture backgroundImage;
+    private int level;
 
     private Stage stage;
     private ImageButton buttonMenu;
     private ImageButton buttonNext;
 
-    public WinScreen(final MarsikGame game) {
+    public WinScreen(final MarsikGame game, final int level) {
         this.game = game;
+        this.level = level;
         batch = new SpriteBatch();
         backgroundImage = new Texture("win.png");
 
@@ -50,7 +52,6 @@ public class WinScreen implements Screen {
         buttonMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("to menu touch");
                 game.setScreen(new MenuScreen(game));
                 dispose();
             }
@@ -59,9 +60,10 @@ public class WinScreen implements Screen {
         buttonNext.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("next touch");
-                game.setScreen(new PlayScreen(game));
-                dispose();
+                if(level!=3) {
+                    game.setScreen(new PlayScreen(game, level + 1));
+                    dispose();
+                }
             }
         });
 
@@ -96,12 +98,10 @@ public class WinScreen implements Screen {
         stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
-            System.out.println("next touch");
-            game.setScreen(new PlayScreen(game));
+            game.setScreen(new PlayScreen(game, level+1));
             dispose();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
-            System.out.println("to menu touch");
             game.setScreen(new MenuScreen(game));
             dispose();
         }

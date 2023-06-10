@@ -34,7 +34,6 @@ public class Dron extends Enemy {
         BodyDef bdef = new BodyDef();
         bdef.position.set(x, y);
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.gravityScale=0;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();

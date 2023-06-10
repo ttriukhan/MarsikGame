@@ -9,7 +9,6 @@ public class Platform extends InteractiveTileObject {
     public Platform(PlayScreen screen, Rectangle bounds) {
         super(screen, bounds);
         fixture.setUserData(this);
-        setCategoryFilter(MarsikGame.PLATFORM_BIT);
     }
 
     @Override

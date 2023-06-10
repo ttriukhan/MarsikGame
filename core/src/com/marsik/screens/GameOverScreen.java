@@ -27,13 +27,15 @@ public class GameOverScreen implements Screen {
     private final MarsikGame game;
     private SpriteBatch batch;
     private Texture backgroundImage;
+    private int level;
 
     private Stage stage;
     private ImageButton buttonRestart;
     private ImageButton buttonMenu;
 
-    public GameOverScreen(final MarsikGame game) {
+    public GameOverScreen(final MarsikGame game, final int level) {
         this.game = game;
+        this.level = level;
         batch = new SpriteBatch();
         backgroundImage = new Texture("gameover.jpg");
 
@@ -50,7 +52,6 @@ public class GameOverScreen implements Screen {
         buttonMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("to menu touch");
                 game.setScreen(new MenuScreen(game));
                 dispose();
             }
@@ -59,8 +60,7 @@ public class GameOverScreen implements Screen {
         buttonRestart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("restart touch");
-                game.setScreen(new PlayScreen(game));
+                game.setScreen(new PlayScreen(game, level));
                 dispose();
             }
         });
@@ -96,12 +96,10 @@ public class GameOverScreen implements Screen {
         stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_0)) {
-            System.out.println("restart touch");
-            game.setScreen(new PlayScreen(game));
+            game.setScreen(new PlayScreen(game, level));
             dispose();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
-            System.out.println("to menu touch");
             game.setScreen(new MenuScreen(game));
             dispose();
         }

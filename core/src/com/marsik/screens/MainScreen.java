@@ -48,13 +48,11 @@ public class MainScreen implements Screen {
         batch.end();
 
         if (Gdx.input.justTouched()) {
-            System.out.println("main touch");
             game.setScreen(new MenuScreen(game));
             dispose();
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            System.out.println("main touch");
             game.setScreen(new MenuScreen(game));
             dispose();
         }

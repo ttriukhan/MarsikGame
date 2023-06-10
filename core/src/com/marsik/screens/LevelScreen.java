@@ -35,9 +35,9 @@ public class LevelScreen implements Screen {
         this.game = game;
         this.level = level;
         batch = new SpriteBatch();
-        if(level==0) backgroundImage = new Texture("l10.png");
-        if(level==1) backgroundImage = new Texture("l20.png");
-        if(level==2) backgroundImage = new Texture("l30.png");
+        if(level==1) backgroundImage = new Texture("l10.png");
+        if(level==2) backgroundImage = new Texture("l20.png");
+        if(level==3) backgroundImage = new Texture("l30.png");
 
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
@@ -60,9 +60,7 @@ public class LevelScreen implements Screen {
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("play touch");
-                game.setScreen(new PlayScreen(game));
-
+                game.setScreen(new PlayScreen(game, level));
                 dispose();
             }
         });
@@ -70,9 +68,7 @@ public class LevelScreen implements Screen {
         buttonMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("menu touch");
                 game.setScreen(new MenuScreen(game));
-
                 dispose();
             }
         });
@@ -80,13 +76,12 @@ public class LevelScreen implements Screen {
         buttonLeft.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("left touch");
-                if(level==1) {
-                    game.setScreen(new LevelScreen(game, 0));
-                    dispose();
-                }
                 if(level==2) {
                     game.setScreen(new LevelScreen(game, 1));
+                    dispose();
+                }
+                if(level==3) {
+                    game.setScreen(new LevelScreen(game, 2));
                     dispose();
                 }
             }
@@ -95,13 +90,12 @@ public class LevelScreen implements Screen {
         buttonRight.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("right touch");
-                if(level==0) {
-                    game.setScreen(new LevelScreen(game, 1));
-                    dispose();
-                }
                 if(level==1) {
                     game.setScreen(new LevelScreen(game, 2));
+                    dispose();
+                }
+                if(level==2) {
+                    game.setScreen(new LevelScreen(game, 3));
                     dispose();
                 }
             }
@@ -149,26 +143,24 @@ public class LevelScreen implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
 
-            System.out.println("left touch");
-            if(level==1) {
-                game.setScreen(new LevelScreen(game, 0));
-                dispose();
-            }
             if(level==2) {
                 game.setScreen(new LevelScreen(game, 1));
+                dispose();
+            }
+            if(level==3) {
+                game.setScreen(new LevelScreen(game, 2));
                 dispose();
             }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
 
-            System.out.println("right touch");
-            if(level==0) {
-                game.setScreen(new LevelScreen(game, 1));
-                dispose();
-            }
             if(level==1) {
                 game.setScreen(new LevelScreen(game, 2));
+                dispose();
+            }
+            if(level==2) {
+                game.setScreen(new LevelScreen(game, 3));
                 dispose();
             }
 
@@ -177,7 +169,6 @@ public class LevelScreen implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 
-            System.out.println("menu touch");
             game.setScreen(new MenuScreen(game));
 
             dispose();
@@ -185,8 +176,7 @@ public class LevelScreen implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
 
-            System.out.println("play touch");
-            game.setScreen(new PlayScreen(game));
+            game.setScreen(new PlayScreen(game, level));
 
             dispose();
         }

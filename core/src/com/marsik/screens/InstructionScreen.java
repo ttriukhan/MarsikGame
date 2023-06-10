@@ -46,7 +46,6 @@ public class InstructionScreen implements Screen {
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("back touch");
                 game.setScreen(new MenuScreen(game));
                 dispose();
             }

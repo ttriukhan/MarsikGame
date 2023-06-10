@@ -45,6 +45,7 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
     private B2WorldCreator creator;
+    private int level;
 
     private Marsik player;
     private ArrayList<Bullet> bullets;
@@ -67,15 +68,16 @@ public class PlayScreen implements Screen {
     private boolean win;
 
 
-    public PlayScreen(MarsikGame game) {
+    public PlayScreen(MarsikGame game, int mapName) {
 
         this.game = game;
+        level = mapName;
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(MarsikGame.V_WIDTH / MarsikGame.PPM, MarsikGame.V_HEIGHT / MarsikGame.PPM, gameCam);
         hud = new Hud(game.batch);
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("map1.tmx");
+        map = mapLoader.load("map"+mapName+".tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1/MarsikGame.PPM);
         gameCam.position.set(gamePort.getScreenWidth()/2f, gamePort.getScreenHeight()/2f, 0);
 
@@ -246,12 +248,12 @@ public class PlayScreen implements Screen {
         if(win) {
             Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/ufo.wav"));
             touchSound.play(0.5f);
-            game.setScreen(new WinScreen(game));
+            game.setScreen(new WinScreen(game, level));
             hud.win();
         } else {
             Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/loose.wav"));
             touchSound.play(50f);
-            game.setScreen(new GameOverScreen(game));
+            game.setScreen(new GameOverScreen(game, level));
             hud.loose();
         }
         game.backgroundMusic.play();
