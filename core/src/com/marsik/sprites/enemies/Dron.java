@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.math.Vector2;
 import com.marsik.sprites.Marsik;
-import tools.MarsikGame;
+import com.marsik.tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public class Dron extends Enemy {

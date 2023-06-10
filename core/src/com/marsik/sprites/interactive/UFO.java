@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.marsik.sprites.Marsik;
-import tools.MarsikGame;
+import com.marsik.tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public class UFO extends InteractiveTileObject {

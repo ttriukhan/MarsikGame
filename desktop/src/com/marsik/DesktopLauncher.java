@@ -2,7 +2,7 @@ package com.marsik;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import tools.MarsikGame;
+import com.marsik.tools.MarsikGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.marsik.sprites.items.Bullet;
 import com.marsik.sprites.items.SoldierBullet;
-import tools.MarsikGame;
+import com.marsik.tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public class Soldier extends Enemy {

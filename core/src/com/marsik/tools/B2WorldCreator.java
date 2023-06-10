@@ -1,4 +1,4 @@
-package tools;
+package com.marsik.tools;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;

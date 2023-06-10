@@ -4,7 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.physics.box2d.*;
-import tools.MarsikGame;
+import com.marsik.tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public abstract class InteractiveTileObject {

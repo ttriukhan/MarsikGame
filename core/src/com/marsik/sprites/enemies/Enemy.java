@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import tools.MarsikGame;
+import com.marsik.tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public abstract class Enemy extends Sprite {

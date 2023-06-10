@@ -1,4 +1,4 @@
-package tools;
+package com.marsik.tools;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.marsik.sprites.enemies.Dron;

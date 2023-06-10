@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.math.Vector2;
 import com.marsik.screens.PlayScreen;
 import com.marsik.sprites.Marsik;
-import tools.MarsikGame;
+import com.marsik.tools.MarsikGame;
 
 public class SoldierBullet extends Bullet {
 

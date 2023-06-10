@@ -2,7 +2,7 @@ package com.marsik.sprites.interactive;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
-import tools.MarsikGame;
+import com.marsik.tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public class Platform extends InteractiveTileObject {
