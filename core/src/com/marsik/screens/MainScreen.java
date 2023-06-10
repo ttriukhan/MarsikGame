@@ -17,6 +17,8 @@ import com.marsik.tools.MarsikGame;
 import com.marsik.screens.MenuScreen;
 
 import java.security.Key;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainScreen implements Screen {
 
@@ -48,12 +50,12 @@ public class MainScreen implements Screen {
         batch.end();
 
         if (Gdx.input.justTouched()) {
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(new MenuScreen(game, new ArrayList<Integer>(Arrays.asList(0, 0, 0))));
             dispose();
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(new MenuScreen(game, new ArrayList<Integer>(Arrays.asList(0, 0, 0))));
             dispose();
         }
     }

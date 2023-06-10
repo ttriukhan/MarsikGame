@@ -21,6 +21,7 @@ import com.marsik.tools.MarsikGame;
 import com.marsik.screens.MenuScreen;
 
 import java.security.Key;
+import java.util.ArrayList;
 
 public class WinScreen implements Screen {
 
@@ -28,16 +29,19 @@ public class WinScreen implements Screen {
     private SpriteBatch batch;
     private Texture backgroundImage;
     private int level;
+    private ArrayList<Integer> samples;
 
     private Stage stage;
     private ImageButton buttonMenu;
     private ImageButton buttonNext;
 
-    public WinScreen(final MarsikGame game, final int level) {
+    public WinScreen(final MarsikGame game, final int level, final ArrayList<Integer> samples, final int points) {
         this.game = game;
         this.level = level;
+        this.samples = samples;
         batch = new SpriteBatch();
-        backgroundImage = new Texture("win.png");
+        if(points==0) backgroundImage = new Texture("w.png");
+        else backgroundImage = new Texture("w"+level+points+".png");
 
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
@@ -52,7 +56,7 @@ public class WinScreen implements Screen {
         buttonMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game, samples));
                 dispose();
             }
         });
@@ -61,7 +65,7 @@ public class WinScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(level!=3) {
-                    game.setScreen(new PlayScreen(game, level + 1));
+                    game.setScreen(new PlayScreen(game, level + 1, samples));
                     dispose();
                 }
             }
@@ -98,11 +102,11 @@ public class WinScreen implements Screen {
         stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
-            game.setScreen(new PlayScreen(game, level+1));
+            game.setScreen(new PlayScreen(game, level+1, samples));
             dispose();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(new MenuScreen(game, samples));
             dispose();
         }
     }

@@ -2,7 +2,6 @@ package com.marsik.sprites.interactive;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.marsik.tools.MarsikGame;
 import com.marsik.scenes.Hud;
@@ -23,6 +22,7 @@ public class Sample extends InteractiveTileObject {
         touchSound.play();
 
         getCell().setTile(null);
+        screen.getSample();
         Hud.addScore(1);
     }
 

@@ -90,6 +90,7 @@ public class Soldier extends Enemy {
 
     public void shoot() {
         if(!frozen) {
+            if(!shooting) timer=0.5f;
             shooting = true;
             if (timer >= 1) {
 

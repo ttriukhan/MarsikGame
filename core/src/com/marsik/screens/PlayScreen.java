@@ -46,6 +46,8 @@ public class PlayScreen implements Screen {
     private Box2DDebugRenderer b2dr;
     private B2WorldCreator creator;
     private int level;
+    private ArrayList<Integer> samples;
+    private int points;
 
     private Marsik player;
     private ArrayList<Bullet> bullets;
@@ -68,10 +70,12 @@ public class PlayScreen implements Screen {
     private boolean win;
 
 
-    public PlayScreen(MarsikGame game, int mapName) {
+    public PlayScreen(MarsikGame game, int mapName, ArrayList<Integer> samples) {
 
         this.game = game;
+        this.samples = samples;
         level = mapName;
+        points = 0;
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(MarsikGame.V_WIDTH / MarsikGame.PPM, MarsikGame.V_HEIGHT / MarsikGame.PPM, gameCam);
         hud = new Hud(game.batch);
@@ -120,6 +124,10 @@ public class PlayScreen implements Screen {
 
     public Marsik getPlayer() {
         return player;
+    }
+
+    public void getSample() {
+        points++;
     }
 
     @Override
@@ -219,12 +227,12 @@ public class PlayScreen implements Screen {
                 Hud.addBonus("HEALTH BONUS", 5);
             }
             if(currentBonus== Marsik.BonusStatus.RELOAD) {
-                bonusTime = 10;
-                Hud.addBonus("RELOAD BONUS", 10);
+                bonusTime = 20;
+                Hud.addBonus("RELOAD BONUS", 20);
             }
             if(currentBonus== Marsik.BonusStatus.RESISTANCE) {
-                bonusTime = 5;
-                Hud.addBonus("RESISTANCE BONUS", 5);
+                bonusTime = 10;
+                Hud.addBonus("RESISTANCE BONUS", 10);
             }
         }
 
@@ -248,12 +256,12 @@ public class PlayScreen implements Screen {
         if(win) {
             Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/ufo.wav"));
             touchSound.play(0.5f);
-            game.setScreen(new WinScreen(game, level));
+            if(samples.get(level-1)<points)
+                samples.set(level-1, points);
             hud.win();
         } else {
             Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/loose.wav"));
             touchSound.play(50f);
-            game.setScreen(new GameOverScreen(game, level));
             hud.loose();
         }
         game.backgroundMusic.play();
@@ -296,12 +304,8 @@ public class PlayScreen implements Screen {
         if(gameOver){
             gameOverTimer+=delta;
             if(gameOverTimer >= (win ? 5 : 3)) {
-                if(win) {
-                    Gdx.app.log("game","win");
-                }
-                else {
-                    Gdx.app.log("game","loose");
-                }
+                if(win) game.setScreen(new WinScreen(game, level, samples, points));
+                else game.setScreen(new GameOverScreen(game, level, samples));
                 dispose();
             }
         }

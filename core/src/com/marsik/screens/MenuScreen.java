@@ -21,6 +21,10 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.marsik.tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 public class MenuScreen implements Screen {
 
     private final MarsikGame game;
@@ -29,12 +33,15 @@ public class MenuScreen implements Screen {
 
     private Stage stage;
 
+    private ArrayList<Integer> samples;
+
     ImageButton buttonPlay;
     ImageButton buttonInstr;
 
 
-    public MenuScreen(final MarsikGame game) {
+    public MenuScreen(final MarsikGame game, final ArrayList<Integer> samples) {
         this.game = game;
+        this.samples = samples;
         batch = new SpriteBatch();
         backgroundImage = new Texture("menu.png");
 
@@ -56,7 +63,7 @@ public class MenuScreen implements Screen {
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LevelScreen(game, 1));
+                game.setScreen(new LevelScreen(game, 1, samples));
                 dispose();
             }
         });
@@ -64,7 +71,7 @@ public class MenuScreen implements Screen {
         buttonInstr.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new InstructionScreen(game));
+                game.setScreen(new InstructionScreen(game, samples));
                 dispose();
             }
         });
@@ -98,11 +105,11 @@ public class MenuScreen implements Screen {
         stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_0)) {
-            game.setScreen(new LevelScreen(game, 1));
+            game.setScreen(new LevelScreen(game, 1, samples));
             dispose();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
-            game.setScreen(new InstructionScreen(game));
+            game.setScreen(new InstructionScreen(game, samples));
             dispose();
         }
 

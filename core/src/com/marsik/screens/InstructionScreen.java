@@ -22,18 +22,21 @@ import com.marsik.tools.MarsikGame;
 import com.marsik.screens.MenuScreen;
 
 import java.security.Key;
+import java.util.ArrayList;
 
 public class InstructionScreen implements Screen {
 
     private final MarsikGame game;
     private SpriteBatch batch;
     private Texture backgroundImage;
+    private ArrayList<Integer> samples;
 
     private Stage stage;
     private ImageButton buttonBack;
 
-    public InstructionScreen(final MarsikGame game) {
+    public InstructionScreen(final MarsikGame game, final ArrayList<Integer> samples) {
         this.game = game;
+        this.samples = samples;
         batch = new SpriteBatch();
         backgroundImage = new Texture("instruction.png");
 
@@ -46,7 +49,7 @@ public class InstructionScreen implements Screen {
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game, samples));
                 dispose();
             }
         });
@@ -82,7 +85,7 @@ public class InstructionScreen implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
             System.out.println("back touch");
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(new MenuScreen(game, samples));
             dispose();
         }
     }

@@ -21,6 +21,7 @@ import com.marsik.tools.MarsikGame;
 import com.marsik.screens.MenuScreen;
 
 import java.security.Key;
+import java.util.ArrayList;
 
 public class GameOverScreen implements Screen {
 
@@ -28,14 +29,16 @@ public class GameOverScreen implements Screen {
     private SpriteBatch batch;
     private Texture backgroundImage;
     private int level;
+    private ArrayList<Integer> samples;
 
     private Stage stage;
     private ImageButton buttonRestart;
     private ImageButton buttonMenu;
 
-    public GameOverScreen(final MarsikGame game, final int level) {
+    public GameOverScreen(final MarsikGame game, final int level, final ArrayList<Integer> samples) {
         this.game = game;
         this.level = level;
+        this.samples = samples;
         batch = new SpriteBatch();
         backgroundImage = new Texture("gameover.jpg");
 
@@ -52,7 +55,7 @@ public class GameOverScreen implements Screen {
         buttonMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game, samples));
                 dispose();
             }
         });
@@ -60,7 +63,7 @@ public class GameOverScreen implements Screen {
         buttonRestart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlayScreen(game, level));
+                game.setScreen(new PlayScreen(game, level, samples));
                 dispose();
             }
         });
@@ -96,11 +99,11 @@ public class GameOverScreen implements Screen {
         stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_0)) {
-            game.setScreen(new PlayScreen(game, level));
+            game.setScreen(new PlayScreen(game, level, samples));
             dispose();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(new MenuScreen(game, samples));
             dispose();
         }
     }
