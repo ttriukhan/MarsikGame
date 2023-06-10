@@ -1,6 +1,8 @@
 package com.marsik.tools;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.marsik.screens.*;
 
@@ -20,11 +22,17 @@ public class MarsikGame extends Game {
 	public static final short SOLDIER_BULLET_BIT = 256;
 	public static final short FREEZE_BULLET_BIT = 512;
 
+	public Music backgroundMusic;
+
 	public SpriteBatch batch;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music/backMusic.mp3"));
+		backgroundMusic.setLooping(true);
+		backgroundMusic.setVolume(0.4f);
+		backgroundMusic.play();
 		setScreen(new MainScreen(this));
 	}
 

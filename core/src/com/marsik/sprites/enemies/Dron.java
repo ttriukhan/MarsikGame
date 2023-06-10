@@ -67,10 +67,10 @@ public class Dron extends Enemy {
         if(screen.currentBonus != Marsik.BonusStatus.RESISTANCE) {
 
             Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/hit.wav"));
-            touchSound.play(0.5f);
+            touchSound.play(0.3f);
 
             Sound auch = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/auch.mp3"));
-            auch.play(0.5f);
+            auch.play(0.2f);
 
             screen.getPlayer().changeHealth(-25);
 

@@ -102,6 +102,7 @@ public class PlayScreen implements Screen {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music/marsik.mp3"));
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.2f);
+        game.backgroundMusic.pause();
 
         paused = false;
         gameOver = false;
@@ -248,11 +249,12 @@ public class PlayScreen implements Screen {
             game.setScreen(new WinScreen(game));
             hud.win();
         } else {
-            Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/loose.mp3"));
-            touchSound.play(0.5f);
+            Sound touchSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/loose.wav"));
+            touchSound.play(50f);
             game.setScreen(new GameOverScreen(game));
             hud.loose();
         }
+        game.backgroundMusic.play();
     }
 
     @Override
