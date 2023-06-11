@@ -29,29 +29,28 @@ import java.util.ArrayList;
 
 public class PlayScreen implements Screen {
 
-    private MarsikGame game;
+    private final MarsikGame game;
 
-    private OrthographicCamera gameCam;
-    private Viewport gamePort;
-    private Hud hud;
+    private final OrthographicCamera gameCam;
+    private final Viewport gamePort;
+    private final Hud hud;
 
-    private TmxMapLoader mapLoader;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
+    private final TiledMap map;
+    private final OrthogonalTiledMapRenderer renderer;
 
-    private float mapWidth;
-    private float mapHeight;
+    private final float mapWidth;
+    private final float mapHeight;
 
-    private World world;
-    private Box2DDebugRenderer b2dr;
-    private B2WorldCreator creator;
-    private int level;
-    private ArrayList<Integer> samples;
+    private final World world;
+    private final Box2DDebugRenderer b2dr;
+    private final B2WorldCreator creator;
+    private final int level;
+    private final ArrayList<Integer> samples;
     private int points;
 
-    private Marsik player;
-    private ArrayList<Bullet> bullets;
-    private ArrayList<Bullet> freezeBullets;
+    private final Marsik player;
+    private final ArrayList<Bullet> bullets;
+    private final ArrayList<Bullet> freezeBullets;
 
     public Marsik.BonusStatus currentBonus;
     public Marsik.BonusStatus previousBonus;
@@ -60,9 +59,9 @@ public class PlayScreen implements Screen {
     private float healthBonusTimer;
 
     private float reloadTimer;
-    private float reloadTime;
+    private final float reloadTime;
 
-    private Music backgroundMusic;
+    private final Music backgroundMusic;
 
     private boolean paused;
     private boolean gameOver;
@@ -80,7 +79,7 @@ public class PlayScreen implements Screen {
         gamePort = new FitViewport(MarsikGame.V_WIDTH / MarsikGame.PPM, MarsikGame.V_HEIGHT / MarsikGame.PPM, gameCam);
         hud = new Hud(game.batch);
 
-        mapLoader = new TmxMapLoader();
+        TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load("map"+mapName+".tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1/MarsikGame.PPM);
         gameCam.position.set(gamePort.getScreenWidth()/2f, gamePort.getScreenHeight()/2f, 0);
@@ -170,11 +169,11 @@ public class PlayScreen implements Screen {
 
         world.step(1 / 60f, 6, 2);
 
-        player.update(dt);
+        player.update();
 
         bonusUpdate(dt);
 
-        for (Dron dron : creator.getDrons())
+        for (Dron dron : creator.getDrones())
             dron.update(dt);
 
         for (Soldier sold : creator.getSoldiers()) {
@@ -283,7 +282,7 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
 
-        for (Dron dron : creator.getDrons())
+        for (Dron dron : creator.getDrones())
             dron.draw(game.batch);
 
         for (Soldier sold : creator.getSoldiers())

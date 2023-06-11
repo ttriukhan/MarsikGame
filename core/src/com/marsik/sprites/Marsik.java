@@ -1,7 +1,6 @@
 package com.marsik.sprites;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,20 +10,19 @@ import com.marsik.tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
 public class Marsik extends Sprite {
-    public enum State {JUMPING, FALLING, STANDING, RUNNING};
+    public enum State {JUMPING, FALLING, STANDING, RUNNING}
     public State currentState;
     public State previousState;
 
-    private TextureRegion right;
-    private TextureRegion left;
+    private final TextureRegion right;
+    private final TextureRegion left;
 
-    public enum BonusStatus {NONE, HEALTH, RESISTANCE, RELOAD, SAME};
+    public enum BonusStatus {NONE, HEALTH, RESISTANCE, RELOAD, SAME}
 
     public PlayScreen screen;
     public World world;
     public Body b2body;
     public boolean movingRight;
-    private float stateTimer;
     private Integer health;
 
     public Marsik(PlayScreen screen) {
@@ -36,7 +34,6 @@ public class Marsik extends Sprite {
 
         currentState = State.STANDING;
         previousState = State.STANDING;
-        stateTimer= 0;
         movingRight = true;
         health = 100;
 
@@ -44,19 +41,13 @@ public class Marsik extends Sprite {
         setBounds(0, 0, 25 / MarsikGame.PPM, 32 / MarsikGame.PPM);
     }
 
-    public void update(float dt) {
+    public void update() {
         setPosition(b2body.getPosition().x - getWidth()/2, b2body.getPosition().y - getHeight()/2);
         previousState = currentState;
         currentState = getState();
         movingRight = isMovingRight();
         if(movingRight) setRegion(right);
         else setRegion(left);
-        checkStateTime(dt);
-    }
-
-    private void checkStateTime(float dt) {
-        if(currentState==previousState) stateTimer+=dt;
-        else stateTimer =0;
     }
 
     private boolean isMovingRight() {

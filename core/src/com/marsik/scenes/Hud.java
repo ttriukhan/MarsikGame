@@ -14,7 +14,6 @@ import com.marsik.tools.MarsikGame;
 
 public class Hud implements Disposable {
     public Stage stage;
-    private Viewport viewport;
 
     private static Integer timer;
     private static float timeCount;
@@ -25,8 +24,6 @@ public class Hud implements Disposable {
     private static Label scoreLabel;
     private static Label bonusLabel;
     private static Label healthLabel;
-    private Label healthL;
-    private Label marsikLabel;
     private boolean fixed;
 
     public Hud(SpriteBatch sb) {
@@ -35,7 +32,7 @@ public class Hud implements Disposable {
         score = 0;
         health = 100;
 
-        viewport = new FitViewport(MarsikGame.V_WIDTH, MarsikGame.V_HEIGHT, new OrthographicCamera());
+        Viewport viewport = new FitViewport(MarsikGame.V_WIDTH, MarsikGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
         Table table = new Table();
@@ -46,8 +43,8 @@ public class Hud implements Disposable {
         scoreLabel = new Label(String.format("%01d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         bonusLabel = new Label("NO BONUS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         healthLabel = new Label(String.format("%03d", health), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        healthL = new Label("HEALTH", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        marsikLabel = new Label("SAMPLES", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        Label healthL = new Label("HEALTH", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        Label marsikLabel = new Label("SAMPLES", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(marsikLabel).expandX().padTop(10);
         table.add(bonusLabel).expandX().padTop(10);

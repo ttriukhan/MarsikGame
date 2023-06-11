@@ -1,6 +1,5 @@
 package com.marsik.tools;
 
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
@@ -18,8 +17,8 @@ import java.util.Random;
 
 public class B2WorldCreator {
 
-    private ArrayList<Soldier> soldiers;
-    private ArrayList<Dron> drons;
+    private final ArrayList<Soldier> soldiers;
+    private final ArrayList<Dron> drones;
 
     public B2WorldCreator(PlayScreen screen) {
         World world = screen.getWorld();
@@ -29,8 +28,8 @@ public class B2WorldCreator {
         FixtureDef fdef = new FixtureDef();
         Body body;
 
-        for(MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        for(RectangleMapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
             bdef.position.set(((rect.getX() + rect.getWidth()/2)/ MarsikGame.PPM), (rect.getY() + rect.getHeight()/2)/MarsikGame.PPM);
@@ -42,50 +41,50 @@ public class B2WorldCreator {
             body.createFixture(fdef);
         }
 
-        for(MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        for(RectangleMapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
 
             new Platform(screen, rect);
         }
 
-        for(MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        for(RectangleMapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
 
             new UFO(screen, rect);
         }
 
-        for(MapObject object : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        for(RectangleMapObject object : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
 
             new Sample(screen, rect);
         }
 
-        for(MapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        for(RectangleMapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
 
             new Bonus(screen, rect);
         }
 
         Random ran = new Random();
         soldiers = new ArrayList<>();
-        drons = new ArrayList<>();
+        drones = new ArrayList<>();
 
-        for(MapObject object : map.getLayers().get(11).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        for(RectangleMapObject object : map.getLayers().get(11).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
 
             soldiers.add(new Soldier(screen, rect.getX() / MarsikGame.PPM, rect.getY() / MarsikGame.PPM, ran.nextFloat(3,6), ran.nextFloat(0.2f,1)));
         }
 
-        for(MapObject object : map.getLayers().get(12).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        for(RectangleMapObject object : map.getLayers().get(12).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
 
-            drons.add(new Dron(screen, rect.getX() / MarsikGame.PPM, rect.getY() / MarsikGame.PPM, ran.nextFloat(3,6), ran.nextFloat(0.2f,1)));
+            drones.add(new Dron(screen, rect.getX() / MarsikGame.PPM, rect.getY() / MarsikGame.PPM, ran.nextFloat(3,6), ran.nextFloat(0.2f,1)));
         }
 
     }
 
-    public ArrayList<Dron> getDrons() {
-        return drons;
+    public ArrayList<Dron> getDrones() {
+        return drones;
     }
 
     public ArrayList<Soldier> getSoldiers() {

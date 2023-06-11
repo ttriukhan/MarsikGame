@@ -2,31 +2,17 @@ package com.marsik.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.marsik.tools.MarsikGame;
-import com.marsik.screens.MenuScreen;
-
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainScreen implements Screen {
 
     private final MarsikGame game;
-    private Texture backgroundImage;
+    private final Texture backgroundImage;
 
 
     public MainScreen(final MarsikGame game) {
@@ -52,12 +38,12 @@ public class MainScreen implements Screen {
         game.batch.end();
 
         if (Gdx.input.justTouched()) {
-            game.setScreen(new MenuScreen(game, new ArrayList<Integer>(Arrays.asList(0, 0, 0))));
+            game.setScreen(new MenuScreen(game, new ArrayList<>(Arrays.asList(0, 0, 0))));
             dispose();
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            game.setScreen(new MenuScreen(game, new ArrayList<Integer>(Arrays.asList(0, 0, 0))));
+            game.setScreen(new MenuScreen(game, new ArrayList<>(Arrays.asList(0, 0, 0))));
             dispose();
         }
     }

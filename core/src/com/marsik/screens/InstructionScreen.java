@@ -2,36 +2,27 @@ package com.marsik.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.marsik.tools.MarsikGame;
-import com.marsik.screens.MenuScreen;
-
-import java.security.Key;
 import java.util.ArrayList;
 
 public class InstructionScreen implements Screen {
 
     private final MarsikGame game;
-    private Texture backgroundImage;
-    private ArrayList<Integer> samples;
+    private final Texture backgroundImage;
+    private final ArrayList<Integer> samples;
 
-    private Stage stage;
-    private ImageButton buttonBack;
+    private final Stage stage;
 
     public InstructionScreen(final MarsikGame game, final ArrayList<Integer> samples) {
         this.game = game;
@@ -42,7 +33,7 @@ public class InstructionScreen implements Screen {
 
         Texture playTexture = new Texture(Gdx.files.internal("buttonIn.png"));
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(playTexture));
-        buttonBack = new ImageButton(drawable);
+        ImageButton buttonBack = new ImageButton(drawable);
 
         buttonBack.addListener(new ClickListener() {
             @Override

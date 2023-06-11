@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.marsik.sprites.items.Bullet;
 import com.marsik.sprites.items.SoldierBullet;
 import com.marsik.tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
@@ -15,10 +14,10 @@ import com.marsik.screens.PlayScreen;
 public class Soldier extends Enemy {
 
     private float timer;
-    private TextureRegion right;
-    private TextureRegion left;
-    private TextureRegion rightFrozen;
-    private TextureRegion leftFrozen;
+    private final TextureRegion right;
+    private final TextureRegion left;
+    private final TextureRegion rightFrozen;
+    private final TextureRegion leftFrozen;
     public boolean shooting;
     private boolean frozen;
 

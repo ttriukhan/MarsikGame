@@ -4,36 +4,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.marsik.tools.MarsikGame;
-
 import java.util.ArrayList;
 
 public class LevelScreen implements Screen {
 
     private final MarsikGame game;
-    private Texture backgroundImage;
-    private int level;
-    private ArrayList<Integer> samples;
+    private final Texture backgroundImage;
+    private final int level;
+    private final ArrayList<Integer> samples;
 
-    private Stage stage;
-    private ImageButton buttonPlay;
-    private ImageButton buttonMenu;
-    private ImageButton buttonLeft;
-    private ImageButton buttonRight;
+    private final Stage stage;
 
     public LevelScreen(final MarsikGame game, final int level, final ArrayList<Integer> samples) {
         this.game = game;
@@ -45,19 +35,19 @@ public class LevelScreen implements Screen {
 
         Texture playTexture = new Texture(Gdx.files.internal("buttonL1.png"));
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(playTexture));
-        buttonPlay = new ImageButton(drawable);
+        ImageButton buttonPlay = new ImageButton(drawable);
 
         Texture instrTexture = new Texture(Gdx.files.internal("buttonL2.png"));
         Drawable drawable1 = new TextureRegionDrawable(new TextureRegion(instrTexture));
-        buttonMenu = new ImageButton(drawable1);
+        ImageButton buttonMenu = new ImageButton(drawable1);
 
         Texture leftTexture = new Texture(Gdx.files.internal("buttonL3.png"));
         Drawable drawable2 = new TextureRegionDrawable(new TextureRegion(leftTexture));
-        buttonLeft = new ImageButton(drawable2);
+        ImageButton buttonLeft = new ImageButton(drawable2);
 
         Texture rightTexture = new Texture(Gdx.files.internal("buttonL4.png"));
         Drawable drawable3 = new TextureRegionDrawable(new TextureRegion(rightTexture));
-        buttonRight = new ImageButton(drawable3);
+        ImageButton buttonRight = new ImageButton(drawable3);
 
         buttonPlay.addListener(new ClickListener() {
             @Override
