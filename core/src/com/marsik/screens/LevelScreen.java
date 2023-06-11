@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.marsik.tools.MarsikGame;
 
 import java.util.ArrayList;
@@ -23,7 +25,6 @@ import java.util.ArrayList;
 public class LevelScreen implements Screen {
 
     private final MarsikGame game;
-    private SpriteBatch batch;
     private Texture backgroundImage;
     private int level;
     private ArrayList<Integer> samples;
@@ -38,10 +39,9 @@ public class LevelScreen implements Screen {
         this.game = game;
         this.level = level;
         this.samples = samples;
-        batch = new SpriteBatch();
         backgroundImage = new Texture("l"+level+samples.get(level-1)+".png");
 
-        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        stage = new Stage(game.gamePort);
 
         Texture playTexture = new Texture(Gdx.files.internal("buttonL1.png"));
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(playTexture));
@@ -143,9 +143,11 @@ public class LevelScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
-        batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
+        game.batch.setProjectionMatrix(game.gameCam.combined);
+
+        game.batch.begin();
+        game.batch.draw(backgroundImage, 0, 0);
+        game.batch.end();
 
         stage.act(delta);
         stage.draw();
@@ -201,7 +203,7 @@ public class LevelScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        game.gamePort.update(width, height);
     }
 
     @Override
@@ -223,7 +225,6 @@ public class LevelScreen implements Screen {
     public void dispose() {
 
         stage.dispose();
-        batch.dispose();
         backgroundImage.dispose();
     }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.marsik.tools.MarsikGame;
 import com.marsik.screens.PlayScreen;
 
@@ -28,7 +30,6 @@ import java.util.stream.Stream;
 public class MenuScreen implements Screen {
 
     private final MarsikGame game;
-    private SpriteBatch batch;
     private Texture backgroundImage;
 
     private Stage stage;
@@ -42,10 +43,9 @@ public class MenuScreen implements Screen {
     public MenuScreen(final MarsikGame game, final ArrayList<Integer> samples) {
         this.game = game;
         this.samples = samples;
-        batch = new SpriteBatch();
         backgroundImage = new Texture("menu.png");
 
-        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        stage = new Stage(game.gamePort);
         Gdx.input.setInputProcessor(stage);
 
         Texture playTexture = new Texture(Gdx.files.internal("buttonM1.png"));
@@ -84,7 +84,6 @@ public class MenuScreen implements Screen {
         table.add(buttonPlay).padBottom(20f).row();
         table.add(buttonInstr);
 
-
     }
 
     @Override
@@ -97,9 +96,11 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
-        batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
+        game.batch.setProjectionMatrix(game.gameCam.combined);
+
+        game.batch.begin();
+        game.batch.draw(backgroundImage, 0, 0);
+        game.batch.end();
 
         stage.act(delta);
         stage.draw();
@@ -117,7 +118,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        game.gamePort.update(width,height);
     }
 
     @Override
@@ -138,7 +139,6 @@ public class MenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        batch.dispose();
         backgroundImage.dispose();
     }
 }

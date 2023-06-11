@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public class WinScreen implements Screen {
 
     private final MarsikGame game;
-    private SpriteBatch batch;
     private Texture backgroundImage;
     private int level;
     private ArrayList<Integer> samples;
@@ -39,11 +38,10 @@ public class WinScreen implements Screen {
         this.game = game;
         this.level = level;
         this.samples = samples;
-        batch = new SpriteBatch();
         if(points==0) backgroundImage = new Texture("w.png");
         else backgroundImage = new Texture("w"+level+points+".png");
 
-        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        stage = new Stage(game.gamePort);
 
         Texture instrTexture = new Texture(Gdx.files.internal("buttonW1.png"));
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(instrTexture));
@@ -94,9 +92,11 @@ public class WinScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
-        batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
+        game.batch.setProjectionMatrix(game.gameCam.combined);
+
+        game.batch.begin();
+        game.batch.draw(backgroundImage, 0, 0);
+        game.batch.end();
 
         stage.act(delta);
         stage.draw();
@@ -113,7 +113,7 @@ public class WinScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        game.gamePort.update(width, height);
     }
 
     @Override
@@ -134,7 +134,6 @@ public class WinScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        batch.dispose();
         backgroundImage.dispose();
     }
 }

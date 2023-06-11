@@ -3,7 +3,10 @@ package com.marsik.tools;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.marsik.screens.*;
 
 public class MarsikGame extends Game {
@@ -25,6 +28,9 @@ public class MarsikGame extends Game {
 	public Music backgroundMusic;
 
 	public SpriteBatch batch;
+
+	public OrthographicCamera gameCam;
+	public Viewport gamePort;
 	
 	@Override
 	public void create () {
@@ -33,6 +39,10 @@ public class MarsikGame extends Game {
 		backgroundMusic.setLooping(true);
 		backgroundMusic.setVolume(0.4f);
 		backgroundMusic.play();
+		gameCam = new OrthographicCamera();
+		gameCam.position.set(0,0,0);
+		gameCam.setToOrtho(false);
+		gamePort = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), gameCam);
 		setScreen(new MainScreen(this));
 	}
 
