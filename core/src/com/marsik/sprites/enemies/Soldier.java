@@ -35,7 +35,8 @@ public class Soldier extends Enemy {
     }
 
     public void update(float dt) {
-        super.update(dt);
+        if(!frozen)
+            super.update(dt);
         timer+=dt;
         if(frozen) {
             b2body.setActive(false);
@@ -90,7 +91,7 @@ public class Soldier extends Enemy {
 
     public void shoot() {
         if(!frozen) {
-            if(!shooting) timer=0.5f;
+            if(!shooting) timer=0.6f;
             shooting = true;
             if (timer >= 1) {
 

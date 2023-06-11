@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.setWindowedMode(1200, 625);
 		config.setForegroundFPS(60);
 		config.setTitle("MARSIK");
+		config.setWindowIcon("icon.png");
 		new Lwjgl3Application(new MarsikGame(), config);
 	}
 }

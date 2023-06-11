@@ -227,12 +227,12 @@ public class PlayScreen implements Screen {
                 Hud.addBonus("HEALTH BONUS", 5);
             }
             if(currentBonus== Marsik.BonusStatus.RELOAD) {
-                bonusTime = 20;
-                Hud.addBonus("RELOAD BONUS", 20);
+                bonusTime = 10;
+                Hud.addBonus("RELOAD BONUS", 10);
             }
             if(currentBonus== Marsik.BonusStatus.RESISTANCE) {
-                bonusTime = 10;
-                Hud.addBonus("RESISTANCE BONUS", 10);
+                bonusTime = 5;
+                Hud.addBonus("RESISTANCE BONUS", 5);
             }
         }
 
